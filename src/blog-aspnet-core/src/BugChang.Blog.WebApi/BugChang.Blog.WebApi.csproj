@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\BugChang.Blog.Application\BugChang.Blog.Application.csproj" />
+    <ProjectReference Include="..\BugChang.Blog.EntityFrameworkCore\BugChang.Blog.EntityFrameworkCore.csproj" />
+  </ItemGroup>
+
+
+</Project>
