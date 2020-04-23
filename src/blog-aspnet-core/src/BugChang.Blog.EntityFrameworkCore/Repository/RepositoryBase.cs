@@ -30,6 +30,11 @@ namespace BugChang.Blog.EntityFrameworkCore.Repository
             return DbSet.ToList();
         }
 
+        public IQueryable GetQueryable()
+        {
+            return DbSet;
+        }
+
         public void Add(T entity)
         {
             DbSet.Add(entity);
@@ -66,7 +71,8 @@ namespace BugChang.Blog.EntityFrameworkCore.Repository
             {
                 var category = new Category
                 {
-                    Name = "分类1"
+                    Name = $"分类{i + 1}",
+                    Color = Category.Colors[i]
                 };
                 _blogContext.Categories.Add(category);
             }

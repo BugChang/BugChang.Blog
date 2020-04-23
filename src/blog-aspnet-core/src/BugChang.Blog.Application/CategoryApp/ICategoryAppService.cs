@@ -1,18 +1,21 @@
 ﻿using System.Collections.Generic;
+using BugChang.Blog.Application.CategoryApp.Dto;
 using BugChang.Blog.Domain.Entity;
 
 namespace BugChang.Blog.Application.CategoryApp
 {
     public interface ICategoryAppService
     {
-        Category GetCategory(int categoryId);
+        CategoryDto GetCategory(int categoryId);
 
-        IEnumerable<Category> GetCategories();
+        IEnumerable<CategoryPreviewDto> GetCategories();
 
-        void InsertCategory(Category category);
+        void InsertCategory(CategoryDto category);
 
         void DeleteCategory(int categoryId);
 
-        void UpdateCategory(Category category);
+        void UpdateCategory(CategoryDto category);
+
+        IEnumerable<string> GetCategoryColors();
     }
 }

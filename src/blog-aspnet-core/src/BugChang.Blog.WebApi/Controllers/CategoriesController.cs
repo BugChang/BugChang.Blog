@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using BugChang.Blog.Application.CategoryApp;
+using BugChang.Blog.Application.CategoryApp.Dto;
 using BugChang.Blog.Domain.Entity;
+using BugChang.Blog.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -19,19 +21,20 @@ namespace BugChang.Blog.WebApi.Controllers
 
         // GET: api/<controller>
         [HttpGet]
-        public IEnumerable<Category> Get()
+        public ActionResult Get()
         {
-            return _categoryAppService.GetCategories();
+            var categories = _categoryAppService.GetCategories();
+            return Ok(categories);
         }
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public ActionResult<Category> Get(int id)
+        public ActionResult Get(int id)
         {
             var category = _categoryAppService.GetCategory(id);
             if (category == null)
             {
-                return NotFound(new { error = "该分类不存在" });
+                return NotFound(CustomerError.Default("该分类不存在"));
             }
 
             return Ok(category);
@@ -39,22 +42,22 @@ namespace BugChang.Blog.WebApi.Controllers
 
         // POST api/<controller>
         [HttpPost]
-        public ActionResult Post([FromBody]Category category)
+        public ActionResult Post([FromBody]CategoryDto categoryDto)
         {
-            _categoryAppService.InsertCategory(category);
-            return CreatedAtAction("Get", new { id = category.Id }, category);
+            _categoryAppService.InsertCategory(categoryDto);
+            return CreatedAtAction("Get", new { id = categoryDto.Id }, categoryDto);
         }
 
         // PUT api/<controller>/5
         [HttpPut("{id}")]
-        public ActionResult<Category> Put(int id, [FromBody]Category category)
+        public ActionResult Put(int id, [FromBody]CategoryDto categoryDto)
         {
             if (_categoryAppService.GetCategory(id) == null)
             {
-                return BadRequest(new { error = "该分类不存在" });
+                return BadRequest(CustomerError.Default("该分类不存在"));
             }
-            _categoryAppService.UpdateCategory(category);
-            return Ok(category);
+            _categoryAppService.UpdateCategory(categoryDto);
+            return Ok(categoryDto);
         }
 
         // DELETE api/<controller>/5
@@ -63,10 +66,17 @@ namespace BugChang.Blog.WebApi.Controllers
         {
             if (_categoryAppService.GetCategory(id) == null)
             {
-                return BadRequest(new { error = "该分类不存在" });
+                return BadRequest(CustomerError.Default("该分类不存在"));
             }
             _categoryAppService.DeleteCategory(id);
             return NoContent();
+        }
+
+        [HttpGet("Colors")]
+        public ActionResult Color()
+        {
+            var colors = _categoryAppService.GetCategoryColors();
+            return Ok(colors);
         }
     }
 }

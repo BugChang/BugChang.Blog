@@ -10,6 +10,8 @@ namespace BugChang.Blog.Domain.Interface
 
         IEnumerable<T> GetAll();
 
+        IQueryable GetQueryable();
+
         void Add(T entity);
 
         void Remove(int id);

@@ -1,4 +1,7 @@
+using AutoMapper;
+using BugChang.Blog.Application.AutoMapper;
 using BugChang.Blog.Application.CategoryApp;
+using BugChang.Blog.Application.Core;
 using BugChang.Blog.Domain.Entity;
 using BugChang.Blog.Domain.Interface;
 using BugChang.Blog.EntityFrameworkCore;
@@ -27,6 +30,8 @@ namespace BugChang.Blog.WebApi
             services.AddControllers();
 
             services.AddRouting(options => options.LowercaseUrls = true);
+
+            services.AddAutoMapper(typeof(EntityToDtoProfile), typeof(DtoToEntityProfile));
 
             services.AddDbContext<BlogContext>(options => options.UseSqlite("Data Source=../../db/blog.db"));
 
