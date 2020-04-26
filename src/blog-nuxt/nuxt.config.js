@@ -6,7 +6,7 @@ export default {
    ** Headers of the page
    */
   head: {
-    titleTemplate: '%s - ' + process.env.npm_package_name,
+    titleTemplate: "%s - BugChang's Blog",
     title: process.env.npm_package_name || '',
     meta: [
       { charset: 'utf-8' },
@@ -52,7 +52,13 @@ export default {
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options
    */
-  axios: {},
+  axios: {
+    prefix: '/api/',
+    proxy: true,
+  },
+  proxy: {
+    '/api/': 'http://localhost:49537/',
+  },
   /*
    ** vuetify module configuration
    ** https://github.com/nuxt-community/vuetify-module
@@ -69,5 +75,8 @@ export default {
      */
     extend(config, ctx) {},
     extractCSS: true,
+  },
+  router: {
+    middleware: 'custom-redirect',
   },
 }

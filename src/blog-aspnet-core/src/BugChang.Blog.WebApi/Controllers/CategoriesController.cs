@@ -52,10 +52,6 @@ namespace BugChang.Blog.WebApi.Controllers
         [HttpPut("{id}")]
         public ActionResult Put(int id, [FromBody]CategoryDto categoryDto)
         {
-            if (_categoryAppService.GetCategory(id) == null)
-            {
-                return BadRequest(CustomerError.Default("该分类不存在"));
-            }
             _categoryAppService.UpdateCategory(categoryDto);
             return Ok(categoryDto);
         }

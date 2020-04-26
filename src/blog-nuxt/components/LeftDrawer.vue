@@ -1,5 +1,5 @@
 <template>
-  <v-navigation-drawer v-model="drawer" class="secondary" app>
+  <v-navigation-drawer v-model="drawer" app>
     <v-list rounded>
       <v-list-item v-for="item in items" :key="item.title" :to="item.to">
         <v-list-item-icon>
