@@ -30,7 +30,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [],
+  plugins: [{ src: '@/plugins/vue-mavon-editor', ssr: false }],
   /*
    ** Nuxt.js dev-modules
    */
@@ -77,6 +77,6 @@ export default {
     extractCSS: true,
   },
   router: {
-    middleware: 'custom-redirect',
+    // middleware: 'custom-redirect',
   },
 }

@@ -53,3 +53,8 @@
     </v-container>
   </v-form>
 </template>
+<script>
+export default {
+  layout: 'admin',
+}
+</script>

@@ -1,9 +1,7 @@
 <template>
   <v-app>
     <v-app-bar app color="primary" height="70" dark>
-      <v-app-bar-nav-icon
-        @click.stop="miniDrawer = !miniDrawer"
-      ></v-app-bar-nav-icon>
+      <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
     </v-app-bar>
     <v-navigation-drawer
       v-model="drawer"
@@ -19,24 +17,37 @@
         <v-toolbar-title v-else>BBA</v-toolbar-title>
       </v-toolbar>
       <v-list>
-        <v-tooltip
-          v-for="item in menus"
-          :key="item.title"
-          right
-          :disabled="!miniDrawer"
-        >
-          <template v-slot:activator="{ on }">
-            <v-list-item :to="item.to" v-on="on">
+        <template v-for="item in menus">
+          <v-list-group v-if="item.children" :key="item.title" no-action>
+            <template v-slot:activator>
               <v-list-item-icon>
                 <v-icon>{{ item.icon }}</v-icon>
               </v-list-item-icon>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </template>
+            <v-list-item
+              v-for="subItem in item.children"
+              :key="subItem.title"
+              :to="subItem.to"
+              exact
+            >
+              <v-list-item-icon>
+                <v-icon>{{ subItem.icon }}</v-icon>
+              </v-list-item-icon>
               <v-list-item-content>
-                <v-list-item-title>{{ item.title }}</v-list-item-title>
+                <v-list-item-title>{{ subItem.title }}</v-list-item-title>
               </v-list-item-content>
             </v-list-item>
-          </template>
-          <span>{{ item.title }}</span>
-        </v-tooltip>
+          </v-list-group>
+          <v-list-item v-else :key="item.title" :to="item.to" exact>
+            <v-list-item-icon>
+              <v-icon>{{ item.icon }}</v-icon>
+            </v-list-item-icon>
+            <v-list-item-content>
+              <v-list-item-title>{{ item.title }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </template>
       </v-list>
     </v-navigation-drawer>
     <v-content>
@@ -53,13 +64,30 @@ export default {
     menus: [
       {
         title: '仪表盘',
-        to: '/admin/dashboard',
+        to: '/admin',
         icon: 'mdi-home',
       },
       {
-        title: '分类',
+        title: '分类管理',
         to: '/admin/category',
-        icon: 'mdi-shape',
+        icon: 'mdi-folder',
+      },
+      {
+        title: '文章管理',
+        to: '',
+        icon: 'mdi-post',
+        children: [
+          {
+            title: '写文章',
+            to: '/admin/post/write',
+            icon: 'mdi-fountain-pen-tip',
+          },
+          {
+            title: '所有文章',
+            to: '/admin/post',
+            icon: 'mdi-book-open-page-variant',
+          },
+        ],
       },
       {
         title: '标签',

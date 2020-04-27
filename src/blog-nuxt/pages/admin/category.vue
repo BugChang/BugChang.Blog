@@ -29,10 +29,6 @@
                         v-model="editedCategory.name"
                         label="名称"
                       ></v-text-field>
-                      <v-text-field
-                        v-model="editedCategory.name"
-                        label="名称"
-                      ></v-text-field>
                     </v-col>
                     <v-col cols="12">
                       <v-select
@@ -53,8 +49,8 @@
 
               <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn color="blue darken-1" text @click="close">Cancel</v-btn>
-                <v-btn color="blue darken-1" text @click="save">Save</v-btn>
+                <v-btn text @click="close">取消</v-btn>
+                <v-btn color="primary" text @click="save">保存</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
@@ -67,7 +63,10 @@
         <v-icon small @click="deleteCategory(item.id)">mdi-delete</v-icon>
       </template>
       <template v-slot:no-data>
-        <v-btn color="primary" @click="getCategories">刷新一下</v-btn>
+        <v-btn color="primary" @click="getCategories">
+          <v-icon>mdi-refresh</v-icon>
+          刷新一下</v-btn
+        >
       </template>
     </v-data-table>
   </v-container>
