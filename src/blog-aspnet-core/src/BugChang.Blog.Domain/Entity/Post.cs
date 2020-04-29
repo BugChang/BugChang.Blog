@@ -19,5 +19,19 @@ namespace BugChang.Blog.Domain.Entity
         public DateTime? LastPublishTime { get; set; }
 
         public bool IsPublish { get; set; }
+
+        public bool IsSticky { get; set; }
+
+        public string Tags { get; set; }
+
+        public void Update(Post targetPost)
+        {
+            Title = targetPost.Title;
+            Content = targetPost.Content;
+            Category = targetPost.Category;
+            IsPublish = targetPost.IsPublish;
+            IsSticky = targetPost.IsSticky;
+            Tags = targetPost.Tags;
+        }
     }
 }

@@ -2,6 +2,7 @@ using AutoMapper;
 using BugChang.Blog.Application.AutoMapper;
 using BugChang.Blog.Application.CategoryApp;
 using BugChang.Blog.Application.Core;
+using BugChang.Blog.Application.PostApp;
 using BugChang.Blog.Domain.Entity;
 using BugChang.Blog.Domain.Interface;
 using BugChang.Blog.EntityFrameworkCore;
@@ -36,8 +37,10 @@ namespace BugChang.Blog.WebApi
             services.AddDbContext<BlogContext>(options => options.UseSqlite("Data Source=../../db/blog.db"));
 
             services.AddScoped<ICategoryAppService, CategoryAppService>();
+            services.AddScoped<IPostAppService, PostAppService>();
 
             services.AddScoped<IRepository<Category>, RepositoryBase<Category>>();
+            services.AddScoped<IRepository<Post>, RepositoryBase<Post>>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -47,6 +50,8 @@ namespace BugChang.Blog.WebApi
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseStaticFiles();
 
             app.UseRouting();
 

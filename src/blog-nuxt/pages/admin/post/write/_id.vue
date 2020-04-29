@@ -18,6 +18,7 @@
           <mavon-editor
             ref="mavonEditor"
             v-model="post.content"
+            placeholder="请输入正文..."
             :toolbars="markdownOption"
             :style="`height:${editorHeight}px`"
           />
@@ -31,7 +32,7 @@
             label="发布"
           ></v-switch>
           <v-switch
-            v-model="post.isPublish"
+            v-model="post.isSticky"
             class="mx-2"
             label="置顶"
           ></v-switch>
@@ -63,6 +64,7 @@
               @keypress.enter="addPostTag"
             ></v-text-field>
           </div>
+          <!-- 封面图片管理 Begin -->
           <v-dialog v-model="coverImgDialog" width="40%" max-width="850">
             <template v-slot:activator="{ on }">
               <v-btn class="mx-2" color="primary" v-on="on">
@@ -72,8 +74,12 @@
             </template>
             <v-card>
               <v-card-title>封面图片管理</v-card-title>
-              <v-img :src="post.coverImg" max-width="100%">
-                <v-btn-toggle v-if="post.coverImg" class="cover-options" dark>
+              <v-img
+                v-if="post.coverImgUrl"
+                :src="post.coverImgUrl"
+                max-width="100%"
+              >
+                <v-btn-toggle class="cover-options" dark>
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
                       <v-btn v-on="on" @click="selectCoverImg">
@@ -91,25 +97,31 @@
                     <span>删除</span>
                   </v-tooltip>
                 </v-btn-toggle>
-
-                <v-btn
-                  v-else
-                  text
-                  block
-                  height="80"
-                  color="primary"
-                  @click="selectCoverImg"
-                >
-                  <v-icon left>mdi-camera</v-icon>
-                  上传封面
-                </v-btn>
+                <v-overlay :value="overlay" absolute>
+                  <v-progress-circular
+                    indeterminate
+                    size="64"
+                  ></v-progress-circular>
+                </v-overlay>
               </v-img>
+
+              <v-btn
+                v-else
+                text
+                block
+                height="80"
+                color="primary"
+                @click="selectCoverImg"
+              >
+                <v-icon left>mdi-camera</v-icon>
+                上传封面
+              </v-btn>
               <v-card-actions>
                 <v-btn block text @click="coverImgDialog = false">关闭</v-btn>
               </v-card-actions>
             </v-card>
           </v-dialog>
-
+          <!-- 封面图片管理 End -->
           <v-spacer></v-spacer>
           <v-btn color="primary" class="mx-2" @click="save">
             <v-icon left>mdi-content-save</v-icon>保存
@@ -117,23 +129,32 @@
         </v-row>
       </div>
     </v-form>
+    <MySnackBar ref="mySnackBar"></MySnackBar>
   </v-container>
 </template>
 <script>
+import MySnackBar from '@/components/MySnackbar'
 export default {
   layout: 'admin',
+  components: { MySnackBar },
+  asyncData({ params }) {
+    const postId = params.id
+    return { postId }
+  },
   data() {
     return {
       coverImgDialog: false,
       editorHeight: 0,
       categories: [],
+      overlay: false,
       post: {
         id: 0,
         title: '',
         content: '',
         categoryId: null,
-        coverImg: '',
+        coverImgUrl: '',
         isPublish: false,
+        isSticky: false,
         tags: [],
       },
       postTagInput: {
@@ -160,14 +181,20 @@ export default {
       this.editorHeight = this.$refs.mavonEditorDiv.clientHeight - 20
     },
     async getCategories() {
-      const data = await this.$axios.$get('/categories')
-      this.categories = data
+      try {
+        const data = await this.$axios.$get('/categories')
+        this.categories = data
+      } catch (error) {
+        this.$refs.mySnackBar.showError('从服务器获取数据时出现了错误！')
+      }
     },
-    save() {
+    async save() {
       if (this.post.id > 0) {
-        // post
-      } else {
         // put
+      } else {
+        // post
+        const data = await this.$axios.$post('/posts', this.post)
+        console.log(data)
       }
     },
     addPostTag() {
@@ -190,12 +217,24 @@ export default {
     selectCoverImg() {
       document.getElementById('coverImageInput').click()
     },
-    uploadCoverImg(file) {
+    async uploadCoverImg(file) {
       const windowURL = window.URL || window.webkitURL
-      this.post.coverImg = windowURL.createObjectURL(file)
+      this.post.coverImgUrl = windowURL.createObjectURL(file)
+      this.overlay = true
+      const imgUrl = await this.uploadFile(file)
+      this.post.coverImgUrl = imgUrl
+      this.overlay = false
     },
     clearCoverImg() {
-      this.post.coverImg = ''
+      this.post.coverImgUrl = ''
+    },
+    async uploadFile(file) {
+      const param = new FormData()
+      param.append('formFile', file)
+      const { imgUrl } = await this.$axios.$post('/files', param, {
+        headers: { 'Content-Type': 'multipart/form-data' },
+      })
+      return imgUrl
     },
   },
 }

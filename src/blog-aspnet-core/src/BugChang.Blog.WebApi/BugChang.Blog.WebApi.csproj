@@ -11,6 +11,11 @@
   <ItemGroup>
     <ProjectReference Include="..\BugChang.Blog.Application\BugChang.Blog.Application.csproj" />
     <ProjectReference Include="..\BugChang.Blog.EntityFrameworkCore\BugChang.Blog.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\BugChang.Blog.Utility\BugChang.Blog.Utility.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\" />
   </ItemGroup>
 
 

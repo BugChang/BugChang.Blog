@@ -35,6 +35,8 @@ namespace BugChang.Blog.Application.CategoryApp
         {
             var category = _mapper.Map<Category>(categoryDto);
             _categoryRepository.Add(category);
+            categoryDto.Id = category.Id;
+
         }
 
         public void DeleteCategory(int categoryId)
