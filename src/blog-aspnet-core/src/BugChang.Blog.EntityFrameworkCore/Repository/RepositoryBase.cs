@@ -10,11 +10,11 @@ namespace BugChang.Blog.EntityFrameworkCore.Repository
     {
         public DbSet<T> DbSet { get; set; }
 
-        private readonly BlogContext _blogContext;
+        public  BlogContext BlogContext { get; set; }
 
         public RepositoryBase(BlogContext blogContext)
         {
-            _blogContext = blogContext;
+            BlogContext = blogContext;
             DbSet = blogContext.Set<T>();
             InitDataBase();
 
@@ -38,27 +38,27 @@ namespace BugChang.Blog.EntityFrameworkCore.Repository
         public void Add(T entity)
         {
             DbSet.Add(entity);
-            _blogContext.SaveChanges();
+            BlogContext.SaveChanges();
         }
 
         public void Remove(int id)
         {
             var entity = Get(id);
             DbSet.Remove(entity);
-            _blogContext.SaveChanges();
+            BlogContext.SaveChanges();
         }
 
-        public void Update(T entity)
+        public virtual void Update(T entity)
         {
             DbSet.Update(entity);
-            _blogContext.SaveChanges();
+            BlogContext.SaveChanges();
         }
 
         public void InitDataBase()
         {
-            if (_blogContext.Database.EnsureCreated())
+            if (BlogContext.Database.EnsureCreated())
             {
-                if (!_blogContext.Categories.Any())
+                if (!BlogContext.Categories.Any())
                 {
                     SeedData();
                 }
@@ -74,10 +74,10 @@ namespace BugChang.Blog.EntityFrameworkCore.Repository
                     Name = $"分类{i + 1}",
                     Color = Category.Colors[i]
                 };
-                _blogContext.Categories.Add(category);
+                BlogContext.Categories.Add(category);
             }
 
-            _blogContext.SaveChanges();
+            BlogContext.SaveChanges();
         }
     }
 }

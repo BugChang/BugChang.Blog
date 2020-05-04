@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BugChang.Blog.Domain.Entity
 {
@@ -9,8 +10,9 @@ namespace BugChang.Blog.Domain.Entity
         public string CoverImgUrl { get; set; }
 
         public string Content { get; set; }
-
-        public Category Category { get; set; }
+        
+        public int CategoryId { get; set; }
+        
 
         public int ViewCount { get; set; }
 
@@ -24,14 +26,11 @@ namespace BugChang.Blog.Domain.Entity
 
         public string Tags { get; set; }
 
-        public void Update(Post targetPost)
-        {
-            Title = targetPost.Title;
-            Content = targetPost.Content;
-            Category = targetPost.Category;
-            IsPublish = targetPost.IsPublish;
-            IsSticky = targetPost.IsSticky;
-            Tags = targetPost.Tags;
-        }
+        [ForeignKey("CategoryId")]
+        public Category Category { get; set; }
+
+
+
+
     }
 }

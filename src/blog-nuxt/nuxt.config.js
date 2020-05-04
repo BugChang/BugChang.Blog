@@ -65,6 +65,15 @@ export default {
    */
   vuetify: {
     customVariables: ['~/assets/variables.scss'],
+    theme: {
+      themes: {
+        dark: {
+          primary: 'pink',
+          secondary: '#b0bec5',
+          anchor: '#8c9eff',
+        },
+      },
+    },
   },
   /*
    ** Build configuration

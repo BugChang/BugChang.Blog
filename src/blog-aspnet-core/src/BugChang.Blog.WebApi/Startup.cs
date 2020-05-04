@@ -40,7 +40,7 @@ namespace BugChang.Blog.WebApi
             services.AddScoped<IPostAppService, PostAppService>();
 
             services.AddScoped<IRepository<Category>, RepositoryBase<Category>>();
-            services.AddScoped<IRepository<Post>, RepositoryBase<Post>>();
+            services.AddScoped<IPostRepository, PostRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

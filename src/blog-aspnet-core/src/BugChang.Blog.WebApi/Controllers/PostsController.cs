@@ -2,8 +2,10 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BugChang.Blog.Application.Core;
 using BugChang.Blog.Application.PostApp;
 using BugChang.Blog.Application.PostApp.Dto;
+using BugChang.Blog.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -22,30 +24,48 @@ namespace BugChang.Blog.WebApi.Controllers
 
         // GET: api/<controller>
         [HttpGet]
-        public ActionResult Get()
+        public IActionResult Get()
         {
-            return NoContent();
+            return Ok(_postAppService.GetPosts());
+        }
+
+        [HttpGet("HomeList")]
+        public IActionResult HomeList([FromQuery]PageSearchInput pageSearchInput)
+        {
+            return Ok(_postAppService.GetHomePosts(pageSearchInput));
         }
 
         // GET api/<controller>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            var post = _postAppService.GetPost(id);
+            if (post==null)
+            {
+                return NotFound(CustomerError.Default("Not Found"));
+            }
+            return Ok(post);
         }
 
         // POST api/<controller>
         [HttpPost]
         public IActionResult Post([FromBody]PostDto postDto)
         {
-            _postAppService.InsertCategory(postDto);
+            _postAppService.InsertPost(postDto);
             return CreatedAtAction("Get", new { id = postDto.Id }, postDto);
         }
 
         // PUT api/<controller>/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody]string value)
+        public IActionResult Put(int id, [FromBody]PostDto postDto)
         {
+            var post = _postAppService.GetPost(id);
+            if (post==null)
+            {
+                return BadRequest(CustomerError.Default("Not Found"));
+            }
+            _postAppService.UpdatePost(postDto);
+            return Ok(post);
         }
 
         // DELETE api/<controller>/5

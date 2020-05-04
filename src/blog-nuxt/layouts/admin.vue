@@ -2,6 +2,10 @@
   <v-app>
     <v-app-bar app color="primary" height="70" dark>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
+      <v-spacer></v-spacer>
+      <v-toolbar-items>
+        <v-btn text to="/">返回前台</v-btn>
+      </v-toolbar-items>
     </v-app-bar>
     <v-navigation-drawer
       v-model="drawer"
@@ -74,7 +78,6 @@ export default {
       },
       {
         title: '文章管理',
-        to: '',
         icon: 'mdi-post',
         children: [
           {

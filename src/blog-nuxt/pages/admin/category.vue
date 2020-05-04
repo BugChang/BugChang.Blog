@@ -1,11 +1,6 @@
 <template>
   <v-container fluid>
-    <v-data-table
-      :headers="headers"
-      :items="categories"
-      sort-by="calories"
-      class="elevation-1"
-    >
+    <v-data-table :headers="headers" :items="categories" class="elevation-1">
       <template v-slot:top>
         <v-toolbar flat color="white">
           <v-toolbar-title>分类</v-toolbar-title>

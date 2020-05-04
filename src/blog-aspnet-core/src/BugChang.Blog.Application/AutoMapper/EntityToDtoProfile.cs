@@ -18,6 +18,9 @@ namespace BugChang.Blog.Application.AutoMapper
 
             CreateMap<Post, PostPreviewDto>()
                 .ForMember(s => s.Tags, d => d.MapFrom(v => v.Tags.Split(",", StringSplitOptions.None)));
+
+            CreateMap<Post, PostDetailDto>()
+                .ForMember(s => s.Tags, d => d.MapFrom(v => v.Tags.Split(",", StringSplitOptions.None)));
         }
     }
 }

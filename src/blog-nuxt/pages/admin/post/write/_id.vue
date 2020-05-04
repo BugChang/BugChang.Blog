@@ -1,9 +1,13 @@
 <template>
   <v-container fluid class="write-container">
-    <v-form class="d-flex flex-column write-form">
+    <v-form ref="form" v-model="valid" class="d-flex flex-column write-form">
       <v-row justify="center">
         <v-col>
-          <v-text-field v-model="post.title" label="标题"></v-text-field>
+          <v-text-field
+            v-model="post.title"
+            label="标题"
+            :rules="[(v) => !!v || '请输入标题']"
+          ></v-text-field>
           <v-file-input
             v-show="false"
             id="coverImageInput"
@@ -21,6 +25,7 @@
             placeholder="请输入正文..."
             :toolbars="markdownOption"
             :style="`height:${editorHeight}px`"
+            @imgAdd="editorAddImg"
           />
         </no-ssr>
       </div>
@@ -44,6 +49,7 @@
               item-value="id"
               label="分类"
               class="mx-2"
+              :rules="[(v) => !!v || '请选择分类']"
             ></v-select>
           </div>
           <v-chip
@@ -143,6 +149,7 @@ export default {
   },
   data() {
     return {
+      valid: true,
       coverImgDialog: false,
       editorHeight: 0,
       categories: [],
@@ -164,11 +171,38 @@ export default {
       },
       markdownOption: {
         bold: true, // 粗体
+        italic: true, // 斜体
+        header: true, // 标题
+        underline: true, // 下划线
+        strikethrough: true, // 中划线
+        mark: true, // 标记
+        superscript: true, // 上角标
+        subscript: true, // 下角标
+        quote: true, // 引用
+        ol: true, // 有序列表
+        ul: true, // 无序列表
+        link: true, // 链接
+        imagelink: true, // 图片链接
+        code: true, // code
+        table: true, // 表格
+        htmlcode: true, // 展示html源码
+        help: true, // 帮助
+        undo: true, // 上一步
+        redo: true, // 下一步
+        navigation: true, // 导航目录
+        alignleft: true, // 左对齐
+        aligncenter: true, // 居中
+        alignright: true, // 右对齐
+        subfield: true, // 单双栏模式
+        preview: true, // 预览
       },
     }
   },
   created() {
     this.getCategories()
+    if (this.postId) {
+      this.getPost(this.postId)
+    }
   },
   mounted() {
     this.calcEditorHeight()
@@ -189,12 +223,15 @@ export default {
       }
     },
     async save() {
-      if (this.post.id > 0) {
-        // put
-      } else {
-        // post
-        const data = await this.$axios.$post('/posts', this.post)
-        console.log(data)
+      if (this.validate()) {
+        if (this.post.id > 0) {
+          // put
+          await this.$axios.$put(`/posts/${this.post.id}`, this.post)
+        } else {
+          // post
+          this.post = await this.$axios.$post('/posts', this.post)
+        }
+        this.$refs.mySnackBar.showSuccess('保存成功')
       }
     },
     addPostTag() {
@@ -235,6 +272,23 @@ export default {
         headers: { 'Content-Type': 'multipart/form-data' },
       })
       return imgUrl
+    },
+    validate() {
+      if (this.$refs.form.validate()) {
+        if (!this.post.content) {
+          this.$refs.mySnackBar.showError('请填写正文')
+          return false
+        }
+        return true
+      }
+      return false
+    },
+    async getPost(postId) {
+      this.post = await this.$axios.$get(`/posts/${postId}`)
+    },
+    async editorAddImg(filename, file) {
+      const url = await this.uploadFile(file)
+      this.$refs.mavonEditor.$img2Url(filename, url)
     },
   },
 }

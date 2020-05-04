@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
-using System.Net.Mime;
-using System.Text;
+using System.Linq;
 
 namespace BugChang.Blog.Utility
 {
@@ -16,39 +14,38 @@ namespace BugChang.Blog.Utility
         /// <param name="sFile">原图片地址</param>
         /// <param name="dFile">压缩后保存图片地址</param>
         /// <param name="flag">压缩质量（数字越小压缩率越高）1-100</param>
-        /// <param name="size">压缩后图片的最大大小</param>
-        /// <param name="sfsc">是否是第一次调用</param>
         /// <returns></returns>
-        public static bool CompressImage(string sFile, string dFile, int flag = 90, int size = 300)
+        public static bool CompressImage(string sFile, string dFile, int flag = 90)
         {
-            Image iSource = Image.FromFile(sFile);
-            ImageFormat tFormat = iSource.RawFormat;
-            int dHeight = iSource.Height / 2;
-            int dWidth = iSource.Width / 2;
-            int sW = 0, sH = 0;
+            var iSource = Image.FromFile(sFile);
+            var tFormat = iSource.RawFormat;
+            var dHeight = iSource.Height / 2;
+            var dWidth = iSource.Width / 2;
+            int sW;
+            int sH;
             //按比例缩放
-            Size tem_size = new Size(iSource.Width, iSource.Height);
-            if (tem_size.Width > dHeight || tem_size.Width > dWidth)
+            var temSize = new Size(iSource.Width, iSource.Height);
+            if (temSize.Width > dHeight || temSize.Width > dWidth)
             {
-                if ((tem_size.Width * dHeight) > (tem_size.Width * dWidth))
+                if ((temSize.Width * dHeight) > (temSize.Width * dWidth))
                 {
                     sW = dWidth;
-                    sH = (dWidth * tem_size.Height) / tem_size.Width;
+                    sH = dWidth * temSize.Height / temSize.Width;
                 }
                 else
                 {
                     sH = dHeight;
-                    sW = (tem_size.Width * dHeight) / tem_size.Height;
+                    sW = temSize.Width * dHeight / temSize.Height;
                 }
             }
             else
             {
-                sW = tem_size.Width;
-                sH = tem_size.Height;
+                sW = temSize.Width;
+                sH = temSize.Height;
             }
 
-            Bitmap ob = new Bitmap(dWidth, dHeight);
-            Graphics g = Graphics.FromImage(ob);
+            var ob = new Bitmap(dWidth, dHeight);
+            var g = Graphics.FromImage(ob);
 
             g.Clear(Color.WhiteSmoke);
             g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
@@ -60,28 +57,19 @@ namespace BugChang.Blog.Utility
             g.Dispose();
 
             //以下代码为保存图片时，设置压缩质量
-            EncoderParameters ep = new EncoderParameters();
-            long[] qy = new long[1];
+            var ep = new EncoderParameters();
+            var qy = new long[1];
             qy[0] = flag;//设置压缩的比例1-100
-            EncoderParameter eParam = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, qy);
+            var eParam = new EncoderParameter(Encoder.Quality, qy);
             ep.Param[0] = eParam;
 
             try
             {
-                ImageCodecInfo[] arrayICI = ImageCodecInfo.GetImageEncoders();
-                ImageCodecInfo jpegICIinfo = null;
-                for (int x = 0; x < arrayICI.Length; x++)
+                var arrayIci = ImageCodecInfo.GetImageEncoders();
+                var jpegIcInfo = arrayIci.FirstOrDefault(t => t.FormatDescription.Equals("JPEG"));
+                if (jpegIcInfo != null)
                 {
-                    if (arrayICI[x].FormatDescription.Equals("JPEG"))
-                    {
-                        jpegICIinfo = arrayICI[x];
-                        break;
-                    }
-                }
-                if (jpegICIinfo != null)
-                {
-                    ob.Save(dFile, jpegICIinfo, ep);//dFile是压缩后的新路径
-                    FileInfo fi = new FileInfo(dFile);
+                    ob.Save(dFile, jpegIcInfo, ep);//dFile是压缩后的新路径
                 }
                 else
                 {
@@ -89,7 +77,7 @@ namespace BugChang.Blog.Utility
                 }
                 return true;
             }
-            catch(Exception exception)
+            catch (Exception)
             {
                 return false;
             }
@@ -100,36 +88,43 @@ namespace BugChang.Blog.Utility
             }
         }
 
-        public static bool CompressImage(Stream stream,string savePath, int flag = 90, int size = 300)
+        public static bool CompressImage(Stream stream, string savePath, int flag = 90)
         {
-            Image iSource = Image.FromStream(stream);
-            ImageFormat tFormat = iSource.RawFormat;
-            int dHeight = iSource.Height / 2;
-            int dWidth = iSource.Width / 2;
-            int sW = 0, sH = 0;
-            //按比例缩放
-            Size tem_size = new Size(iSource.Width, iSource.Height);
-            if (tem_size.Width > dHeight || tem_size.Width > dWidth)
+            if (stream.Length < 358400)
             {
-                if ((tem_size.Width * dHeight) > (tem_size.Width * dWidth))
+                using var fileStream = System.IO.File.Create(savePath);
+                stream.Position = 0;
+                stream.CopyTo(fileStream);
+                return true;
+            }
+            var iSource = Image.FromStream(stream);
+            var tFormat = iSource.RawFormat;
+            var dHeight = iSource.Height / 2;
+            var dWidth = iSource.Width / 2;
+            int sW, sH;
+            //按比例缩放
+            var temSize = new Size(iSource.Width, iSource.Height);
+            if (temSize.Width > dHeight || temSize.Width > dWidth)
+            {
+                if ((temSize.Width * dHeight) > (temSize.Width * dWidth))
                 {
                     sW = dWidth;
-                    sH = (dWidth * tem_size.Height) / tem_size.Width;
+                    sH = dWidth * temSize.Height / temSize.Width;
                 }
                 else
                 {
                     sH = dHeight;
-                    sW = (tem_size.Width * dHeight) / tem_size.Height;
+                    sW = temSize.Width * dHeight / temSize.Height;
                 }
             }
             else
             {
-                sW = tem_size.Width;
-                sH = tem_size.Height;
+                sW = temSize.Width;
+                sH = temSize.Height;
             }
 
-            Bitmap ob = new Bitmap(dWidth, dHeight);
-            Graphics g = Graphics.FromImage(ob);
+            var ob = new Bitmap(dWidth, dHeight);
+            var g = Graphics.FromImage(ob);
 
             g.Clear(Color.WhiteSmoke);
             g.CompositingQuality = System.Drawing.Drawing2D.CompositingQuality.HighQuality;
@@ -141,27 +136,19 @@ namespace BugChang.Blog.Utility
             g.Dispose();
 
             //以下代码为保存图片时，设置压缩质量
-            EncoderParameters ep = new EncoderParameters();
-            long[] qy = new long[1];
+            var ep = new EncoderParameters();
+            var qy = new long[1];
             qy[0] = flag;//设置压缩的比例1-100
-            EncoderParameter eParam = new EncoderParameter(System.Drawing.Imaging.Encoder.Quality, qy);
+            var eParam = new EncoderParameter(Encoder.Quality, qy);
             ep.Param[0] = eParam;
 
             try
             {
-                ImageCodecInfo[] arrayICI = ImageCodecInfo.GetImageEncoders();
-                ImageCodecInfo jpegICIinfo = null;
-                for (int x = 0; x < arrayICI.Length; x++)
+                var arrayIci = ImageCodecInfo.GetImageEncoders();
+                ImageCodecInfo jpegIcInfo = arrayIci.FirstOrDefault(t => t.FormatDescription.Equals("JPEG"));
+                if (jpegIcInfo != null)
                 {
-                    if (arrayICI[x].FormatDescription.Equals("JPEG"))
-                    {
-                        jpegICIinfo = arrayICI[x];
-                        break;
-                    }
-                }
-                if (jpegICIinfo != null)
-                {
-                    ob.Save(savePath, jpegICIinfo, ep);//dFile是压缩后的新路径
+                    ob.Save(savePath, jpegIcInfo, ep);//dFile是压缩后的新路径
                 }
                 else
                 {
@@ -169,7 +156,7 @@ namespace BugChang.Blog.Utility
                 }
                 return true;
             }
-            catch (Exception exception)
+            catch (Exception)
             {
                 return false;
             }
