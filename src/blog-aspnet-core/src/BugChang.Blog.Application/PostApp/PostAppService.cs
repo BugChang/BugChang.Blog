@@ -36,7 +36,7 @@ namespace BugChang.Blog.Application.PostApp
 
         public PageSearchOutput<PostPreviewDto> GetHomePosts(PageSearchInput pageSearchInput)
         {
-            var pageSearchOutput = new PageSearchOutput<PostPreviewDto>();
+            var pageSearchOutput = new PageSearchOutput<PostPreviewDto>(pageSearchInput);
             var queryable = _postRepository.GetHomePosts(pageSearchInput.Skip, pageSearchInput.Take, out int count);
             pageSearchOutput.Records = _mapper.ProjectTo<PostPreviewDto>(queryable);
             pageSearchOutput.Count = count;

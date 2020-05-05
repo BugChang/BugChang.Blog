@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace BugChang.Blog.Application.Core
+﻿namespace BugChang.Blog.Application.Core
 {
     public class PageSearchInput
     {

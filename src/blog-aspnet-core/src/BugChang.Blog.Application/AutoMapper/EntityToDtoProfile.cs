@@ -17,10 +17,12 @@ namespace BugChang.Blog.Application.AutoMapper
             CreateMap<Category, CategoryDto>();
 
             CreateMap<Post, PostPreviewDto>()
-                .ForMember(s => s.Tags, d => d.MapFrom(v => v.Tags.Split(",", StringSplitOptions.None)));
+                .ForMember(s => s.Tags, d => d.MapFrom(v => v.Tags.Split(",", StringSplitOptions.RemoveEmptyEntries)))
+                .ForMember(s => s.Summary, d => d.MapFrom(v => v.GetSummary(200)));
 
             CreateMap<Post, PostDetailDto>()
-                .ForMember(s => s.Tags, d => d.MapFrom(v => v.Tags.Split(",", StringSplitOptions.None)));
+                .ForMember(s => s.Tags, d => d.MapFrom(v => v.Tags.Split(",", StringSplitOptions.RemoveEmptyEntries)))
+                .ForMember(s=>s.HtmlContent,d=>d.MapFrom(v=>v.GetHtmlContent()));
         }
     }
 }

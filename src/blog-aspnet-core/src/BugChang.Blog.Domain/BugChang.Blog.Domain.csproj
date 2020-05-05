@@ -8,4 +8,8 @@
     <Folder Include="ValueObject\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\BugChang.Blog.Utility\BugChang.Blog.Utility.csproj" />
+  </ItemGroup>
+
 </Project>

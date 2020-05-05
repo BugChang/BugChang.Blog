@@ -1,18 +1,19 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
+using BugChang.Blog.Utility;
 
 namespace BugChang.Blog.Domain.Entity
 {
-    public class Post:EntityBase
+    public class Post : EntityBase
     {
         public string Title { get; set; }
 
         public string CoverImgUrl { get; set; }
 
         public string Content { get; set; }
-        
+
         public int CategoryId { get; set; }
-        
+
 
         public int ViewCount { get; set; }
 
@@ -29,8 +30,17 @@ namespace BugChang.Blog.Domain.Entity
         [ForeignKey("CategoryId")]
         public Category Category { get; set; }
 
+        public string GetSummary(int length)
+        {
+            var plainText = MarkdownHelper.ToPlainText(Content);
+            length = plainText.Length > length ? length : plainText.Length;
+            return plainText.Substring(0, length);
+        }
 
-
-
+        public string GetHtmlContent()
+        {
+            var html = MarkdownHelper.ToHtml(Content);
+            return html;
+        }
     }
 }

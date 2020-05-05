@@ -67,10 +67,14 @@ export default {
     customVariables: ['~/assets/variables.scss'],
     theme: {
       themes: {
-        dark: {
-          primary: 'pink',
-          secondary: '#b0bec5',
-          anchor: '#8c9eff',
+        light: {
+          primary: '#e91e63',
+          secondary: '#2196f3',
+          accent: '#009688',
+          error: '#f44336',
+          warning: '#ffc107',
+          info: '#00bcd4',
+          success: '#4caf50',
         },
       },
     },

@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.10.1",
+    "github-markdown-css": "^4.0.0",
     "mavon-editor": "^2.9.0",
     "nuxt": "^2.12.2"
   },

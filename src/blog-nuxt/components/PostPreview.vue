@@ -80,11 +80,11 @@
 
       <v-card-text>{{ post.summary }}</v-card-text>
       <v-card-actions>
-        <v-btn text color="blue" :to="'/post/' + post.id">
+        <v-btn text color="primary" :to="'/post/' + post.id">
           Read More
         </v-btn>
         <v-spacer />
-        <v-btn icon color="blue">
+        <v-btn icon color="primary">
           <v-icon>mdi-share-variant</v-icon>
         </v-btn>
       </v-card-actions>

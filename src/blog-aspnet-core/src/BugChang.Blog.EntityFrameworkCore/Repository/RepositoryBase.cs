@@ -20,7 +20,7 @@ namespace BugChang.Blog.EntityFrameworkCore.Repository
 
         }
 
-        public T Get(int id)
+        public virtual T Get(int id)
         {
             return DbSet.Find(id);
         }

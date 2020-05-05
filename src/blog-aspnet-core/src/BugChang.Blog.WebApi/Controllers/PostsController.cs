@@ -73,5 +73,17 @@ namespace BugChang.Blog.WebApi.Controllers
         public void Delete(int id)
         {
         }
+
+        [HttpGet("{id}/ReadMore")]
+        public IActionResult ReadMore(int id)
+        {
+            var post= _postAppService.GetPost(id);
+            if (!post.IsPublish)
+            {
+                return NotFound(CustomerError.Default("文章不存在或者尚未发布"));
+            }
+
+            return Ok(post);
+        }
     }
 }

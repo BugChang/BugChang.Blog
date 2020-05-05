@@ -35,6 +35,13 @@
         style="width: 100%;"
       />
     </div>
+    <div class="text-center">
+      <v-pagination
+        v-model="page"
+        :length="pageCount"
+        @input="jump"
+      ></v-pagination>
+    </div>
   </v-container>
 </template>
 <script>
@@ -44,8 +51,8 @@ export default {
     PostPreview,
   },
   async asyncData({ $axios }) {
-    const data = await $axios.$get('/posts/homelist')
-    return { posts: data.records }
+    const data = await $axios.$get(`/posts/homelist`)
+    return { posts: data.records, page: data.page, pageCount: data.pageCount }
   },
   data() {
     return {
@@ -69,6 +76,15 @@ export default {
     }
   },
   created() {},
+  methods: {
+    jump(page) {
+      if (page === 1) {
+        this.$router.push(`/`)
+      } else {
+        this.$router.push(`/page/${page}`)
+      }
+    },
+  },
   head() {
     return {
       title: '首页',
