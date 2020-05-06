@@ -42,5 +42,20 @@ namespace BugChang.Blog.Domain.Entity
             var html = MarkdownHelper.ToHtml(Content);
             return html;
         }
+
+        public void ViewCountPlus()
+        {
+            ViewCount++;
+        }
+
+        public bool CanRead()
+        {
+            if (IsPublish)
+            {
+                return true;
+            }
+
+            return false;
+        }
     }
 }

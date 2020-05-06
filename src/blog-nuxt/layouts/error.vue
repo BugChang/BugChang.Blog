@@ -19,12 +19,12 @@
         >
       </v-col>
       <v-col cols="12" md="6" order-md="1">
-        <v-img
+        <img
           class="float-right"
           :src="`/image/${imgName}.svg`"
-          max-width="430px"
           width="100%"
-        ></v-img>
+          style="max-width: 430px;"
+        />
       </v-col>
     </v-row>
   </v-container>
@@ -36,7 +36,7 @@ export default {
     if (route.fullPath.includes('/admin')) {
       return 'admin'
     }
-    return 'default'
+    return 'blank'
   },
   props: {
     error: {
@@ -54,6 +54,9 @@ export default {
   },
   computed: {
     errorMessage() {
+      if (this.error.customMessage) {
+        return this.error.message
+      }
       const statusCode = this.error.statusCode
       let errorMessage
       switch (statusCode) {

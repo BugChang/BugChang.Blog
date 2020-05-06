@@ -57,7 +57,7 @@ export default {
     proxy: true,
   },
   proxy: {
-    '/api/': 'http://localhost:49537/',
+    '/api/': 'http://localhost:5000/',
   },
   /*
    ** vuetify module configuration

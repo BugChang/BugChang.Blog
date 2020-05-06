@@ -62,6 +62,7 @@
 
 <script>
 export default {
+  middleware: 'authentication',
   data: () => ({
     drawer: true,
     miniDrawer: false,

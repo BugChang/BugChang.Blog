@@ -1,4 +1,5 @@
 using AutoMapper;
+using BugChang.Blog.Application.ArchiveApp;
 using BugChang.Blog.Application.AutoMapper;
 using BugChang.Blog.Application.CategoryApp;
 using BugChang.Blog.Application.Core;
@@ -13,6 +14,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 
 namespace BugChang.Blog.WebApi
 {
@@ -25,6 +27,9 @@ namespace BugChang.Blog.WebApi
 
         public IConfiguration Configuration { get; }
 
+        public static readonly ILoggerFactory MyLoggerFactory
+            = LoggerFactory.Create(builder => { builder.AddConsole(); });
+
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
@@ -34,12 +39,15 @@ namespace BugChang.Blog.WebApi
 
             services.AddAutoMapper(typeof(EntityToDtoProfile), typeof(DtoToEntityProfile));
 
-            services.AddDbContext<BlogContext>(options => options.UseSqlite("Data Source=../../db/blog.db"));
+            services.AddDbContext<BlogContext>(options => options.UseLoggerFactory(MyLoggerFactory).UseSqlite("Data Source=../../db/blog.db"));
+
+            services.AddScoped<IUnitOfWork, EfUnitOfWork>();
 
             services.AddScoped<ICategoryAppService, CategoryAppService>();
             services.AddScoped<IPostAppService, PostAppService>();
+            services.AddScoped<IArchiveAppService, ArchiveAppService>();
 
-            services.AddScoped<IRepository<Category>, RepositoryBase<Category>>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IPostRepository, PostRepository>();
         }
 

@@ -5,11 +5,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="ValueObject\" />
+    <ProjectReference Include="..\BugChang.Blog.Utility\BugChang.Blog.Utility.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BugChang.Blog.Utility\BugChang.Blog.Utility.csproj" />
+    <Folder Include="Service\" />
   </ItemGroup>
 
 </Project>

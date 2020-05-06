@@ -21,31 +21,39 @@
           </span>
           <v-card-title>
             <div class="login-title">
-              <span class="headline">登录</span>&nbsp;没有账号? &nbsp;<nuxt-link
-                to="/register"
-                >注册</nuxt-link
+              <span class="headline">注册</span>&nbsp;已有账号? &nbsp;<nuxt-link
+                to="/login"
+                >登录</nuxt-link
               >
             </div>
           </v-card-title>
           <v-card-text>
             <v-form ref="form">
+              <v-text-field label="邮箱" outlined></v-text-field>
+              <v-text-field label="用户名" outlined></v-text-field>
               <v-text-field
-                v-model="loginInfo.username"
-                label="用户名"
-                outlined
-              ></v-text-field>
-              <v-text-field
-                v-model="loginInfo.password"
                 label="密码"
                 type="password"
                 outlined
               ></v-text-field>
-              <v-checkbox
-                v-model="loginInfo.rememberMe"
-                label="记住我"
-              ></v-checkbox>
-              <v-btn block color="primary" @click.stop="login">
-                登录
+              <v-text-field
+                label="确认密码"
+                type="password"
+                outlined
+              ></v-text-field>
+              <v-checkbox>
+                <template v-slot:label>
+                  我已阅读并同意
+                  <a href="/agreement" target="_blank" @click.stop
+                    >《注册协议》</a
+                  >和
+                  <a href="/privacypolicy" target="_blank" @click.stop
+                    >《隐私政策》</a
+                  >
+                </template>
+              </v-checkbox>
+              <v-btn block color="primary">
+                注册
               </v-btn>
             </v-form>
             <v-divider class="mt-4"></v-divider>
@@ -63,39 +71,9 @@
   </v-container>
 </template>
 <script>
-const Cookie = process.client ? require('js-cookie') : undefined
 export default {
-  asyncData({ query }) {
-    let returnUrl = '/'
-    if (query.returnUrl) {
-      returnUrl = query.returnUrl
-    }
-    return { returnUrl }
-  },
   layout: 'blank',
-  data: () => {
-    return {
-      loginInfo: {
-        username: '',
-        password: '',
-        rememberMe: false,
-      },
-    }
-  },
-  methods: {
-    login() {
-      if (
-        this.loginInfo.username === 'bugchang' &&
-        this.loginInfo.password === '000000..'
-      ) {
-        Cookie.set('token', 'test_token')
-        this.$store.commit('setToken', 'test_token')
-        this.$router.push(this.returnUrl)
-      } else {
-        alert('用户名或密码错误')
-      }
-    },
-  },
+  methods: {},
   head() {
     return {
       title: `登录`,
@@ -130,7 +108,7 @@ export default {
   font-size: 16px;
 }
 
-.login-title a {
+a {
   text-decoration: none;
 }
 </style>

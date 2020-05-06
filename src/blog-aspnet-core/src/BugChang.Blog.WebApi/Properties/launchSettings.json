@@ -20,7 +20,7 @@
     "BugChang.Blog.WebApi": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "weatherforecast",
+      "launchUrl": "api/categories",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       },

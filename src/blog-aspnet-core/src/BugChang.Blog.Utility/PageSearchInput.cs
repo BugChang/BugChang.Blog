@@ -1,4 +1,4 @@
-﻿namespace BugChang.Blog.Application.Core
+﻿namespace BugChang.Blog.Utility
 {
     public class PageSearchInput
     {

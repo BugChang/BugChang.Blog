@@ -48,7 +48,6 @@
   <v-container style="max-width: 1050px;">
     <v-card>
       <v-img
-        v-ripple
         :src="
           post.coverImgUrl || 'https://api.ixiaowai.cn/api/api.php?t=' + post.id
         "
@@ -135,9 +134,17 @@ this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your pag
 <script>
 import 'github-markdown-css/github-markdown.css'
 export default {
-  async asyncData({ $axios, params }) {
-    const post = await $axios.$get(`/posts/${params.id}/readmore`)
-    return { post }
+  async asyncData({ $axios, params, error }) {
+    try {
+      const post = await $axios.$get(`/posts/${params.id}/fullcontent`)
+      return { post }
+    } catch (e) {
+      error({
+        statusCode: e.response.status,
+        message: e.response.data.error,
+        customMessage: true,
+      })
+    }
   },
   data: () => ({
     comment: {

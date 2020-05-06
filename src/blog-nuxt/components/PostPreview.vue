@@ -30,7 +30,7 @@
 <template>
   <v-hover v-slot:default="{ hover }">
     <v-card :elevation="hover ? 8 : 2">
-      <nuxt-link :to="`/article/${post.id}`">
+      <nuxt-link :to="`/post/${post.id}`">
         <v-img
           v-ripple
           :src="
@@ -39,6 +39,9 @@
           "
           height="280px"
         >
+          <template v-slot:placeholder>
+            <Loading></Loading>
+          </template>
           <div class="article-head">
             <div class="article-head-primary">
               <div class="article-head-primary-title">
@@ -55,11 +58,7 @@
         </v-img>
       </nuxt-link>
       <v-card-title class="pl-0">
-        <v-btn
-          text
-          :color="post.categoryColor"
-          @click="gotoCategory(post.categoryId)"
-        >
+        <v-btn text :color="post.categoryColor">
           <v-icon>mdi-folder</v-icon>
           {{ post.categoryName }}
         </v-btn>
@@ -92,7 +91,9 @@
   </v-hover>
 </template>
 <script>
+import Loading from '@/components/Loading'
 export default {
+  components: { Loading },
   props: {
     post: {
       type: Object,

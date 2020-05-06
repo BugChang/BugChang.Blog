@@ -6,6 +6,7 @@ using BugChang.Blog.Application.Core;
 using BugChang.Blog.Application.PostApp.Dto;
 using BugChang.Blog.Domain.Entity;
 using BugChang.Blog.Domain.Interface;
+using BugChang.Blog.Utility;
 
 namespace BugChang.Blog.Application.PostApp
 {
@@ -13,11 +14,13 @@ namespace BugChang.Blog.Application.PostApp
     {
         private readonly IMapper _mapper;
         private readonly IPostRepository _postRepository;
+        private IUnitOfWork _unitOfWork;
 
-        public PostAppService(IMapper mapper, IPostRepository postRepository)
+        public PostAppService(IMapper mapper, IPostRepository postRepository, IUnitOfWork unitOfWork)
         {
             _mapper = mapper;
             _postRepository = postRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public void InsertPost(PostDto postDto)
@@ -37,15 +40,31 @@ namespace BugChang.Blog.Application.PostApp
         public PageSearchOutput<PostPreviewDto> GetHomePosts(PageSearchInput pageSearchInput)
         {
             var pageSearchOutput = new PageSearchOutput<PostPreviewDto>(pageSearchInput);
-            var queryable = _postRepository.GetHomePosts(pageSearchInput.Skip, pageSearchInput.Take, out int count);
+            var queryable = _postRepository.GetHomePosts(pageSearchInput, out int count);
             pageSearchOutput.Records = _mapper.ProjectTo<PostPreviewDto>(queryable);
-            pageSearchOutput.Count = count;
+            pageSearchOutput.Total = count;
             return pageSearchOutput;
         }
+
 
         public PostDetailDto GetPost(int postId)
         {
             var post = _postRepository.Get(postId);
+            var dto = _mapper.Map<PostDetailDto>(post);
+            return dto;
+        }
+
+        public PostDetailDto GetFullContent(int postId)
+        {
+            var post = _postRepository.Get(postId);
+            if (post == null || !post.CanRead())
+            {
+                return null;
+            }
+            post.ViewCountPlus();
+            _unitOfWork.Commit();
+
+            //todo:添加访问记录
             var dto = _mapper.Map<PostDetailDto>(post);
             return dto;
         }

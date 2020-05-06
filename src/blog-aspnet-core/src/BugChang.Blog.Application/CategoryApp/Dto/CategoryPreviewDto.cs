@@ -14,4 +14,9 @@ namespace BugChang.Blog.Application.CategoryApp.Dto
 
         public int PostCount { get; set; }
     }
+
+    public class CategoryNavDto : CategoryPreviewDto
+    {
+
+    }
 }
