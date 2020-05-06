@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using BugChang.Blog.Application.Core;
 using BugChang.Blog.Application.PostApp;
 using BugChang.Blog.Application.PostApp.Dto;
+using BugChang.Blog.Utility;
 using BugChang.Blog.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,7 +30,7 @@ namespace BugChang.Blog.WebApi.Controllers
             return Ok(_postAppService.GetPosts());
         }
 
-        [HttpGet("HomeList")]
+        [HttpGet("Home")]
         public IActionResult HomeList([FromQuery]PageSearchInput pageSearchInput)
         {
             return Ok(_postAppService.GetHomePosts(pageSearchInput));
@@ -40,7 +41,7 @@ namespace BugChang.Blog.WebApi.Controllers
         public IActionResult Get(int id)
         {
             var post = _postAppService.GetPost(id);
-            if (post==null)
+            if (post == null)
             {
                 return NotFound(CustomerError.Default("Not Found"));
             }
@@ -60,7 +61,7 @@ namespace BugChang.Blog.WebApi.Controllers
         public IActionResult Put(int id, [FromBody]PostDto postDto)
         {
             var post = _postAppService.GetPost(id);
-            if (post==null)
+            if (post == null)
             {
                 return BadRequest(CustomerError.Default("Not Found"));
             }
@@ -74,10 +75,10 @@ namespace BugChang.Blog.WebApi.Controllers
         {
         }
 
-        [HttpGet("{id}/ReadMore")]
-        public IActionResult ReadMore(int id)
+        [HttpGet("{id}/FullContent")]
+        public IActionResult FullContent(int id)
         {
-            var post= _postAppService.GetPost(id);
+            var post = _postAppService.GetPost(id);
             if (!post.IsPublish)
             {
                 return NotFound(CustomerError.Default("文章不存在或者尚未发布"));

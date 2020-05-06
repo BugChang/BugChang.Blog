@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using BugChang.Blog.Application.Core;
 using BugChang.Blog.Application.PostApp.Dto;
+using BugChang.Blog.Utility;
 
 namespace BugChang.Blog.Application.PostApp
 {

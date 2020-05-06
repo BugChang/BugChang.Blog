@@ -6,6 +6,7 @@ using BugChang.Blog.Application.Core;
 using BugChang.Blog.Application.PostApp.Dto;
 using BugChang.Blog.Domain.Entity;
 using BugChang.Blog.Domain.Interface;
+using BugChang.Blog.Utility;
 
 namespace BugChang.Blog.Application.PostApp
 {
@@ -37,11 +38,12 @@ namespace BugChang.Blog.Application.PostApp
         public PageSearchOutput<PostPreviewDto> GetHomePosts(PageSearchInput pageSearchInput)
         {
             var pageSearchOutput = new PageSearchOutput<PostPreviewDto>(pageSearchInput);
-            var queryable = _postRepository.GetHomePosts(pageSearchInput.Skip, pageSearchInput.Take, out int count);
+            var queryable = _postRepository.GetHomePosts(pageSearchInput, out int count);
             pageSearchOutput.Records = _mapper.ProjectTo<PostPreviewDto>(queryable);
-            pageSearchOutput.Count = count;
+            pageSearchOutput.Total = count;
             return pageSearchOutput;
         }
+
 
         public PostDetailDto GetPost(int postId)
         {

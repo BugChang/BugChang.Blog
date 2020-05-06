@@ -1,3 +1,3 @@
 <template>
-  <h1>分类</h1>
+  <h1>关于</h1>
 </template>

@@ -2,6 +2,7 @@
 using BugChang.Blog.Application.CategoryApp;
 using BugChang.Blog.Application.CategoryApp.Dto;
 using BugChang.Blog.Domain.Entity;
+using BugChang.Blog.Utility;
 using BugChang.Blog.WebApi.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,6 +14,7 @@ namespace BugChang.Blog.WebApi.Controllers
     public class CategoriesController : Controller
     {
         private readonly ICategoryAppService _categoryAppService;
+        
 
         public CategoriesController(ICategoryAppService categoryAppService)
         {
@@ -74,5 +76,20 @@ namespace BugChang.Blog.WebApi.Controllers
             var colors = _categoryAppService.GetCategoryColors();
             return Ok(colors);
         }
+
+        [HttpGet("Nav")]
+        public IActionResult Nav()
+        {
+            var categories = _categoryAppService.GetNavList();
+            return Ok(categories);
+        }
+
+        [HttpGet("{id}/Posts")]
+        public IActionResult Posts(int id,PageSearchInput pageSearchInput)
+        {
+           var posts= _categoryAppService.GetPosts(id, pageSearchInput);
+           return Ok(posts);
+        }
+
     }
 }

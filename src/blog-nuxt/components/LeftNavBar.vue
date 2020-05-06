@@ -29,8 +29,10 @@
           :to="'/category/' + category.id"
         >
           <v-list-item-title v-text="category.name" />
-          <v-list-item-avatar tile size="24" right color="teal">
-            {{ category.postCount }}
+          <v-list-item-avatar tile size="24" right color="primary lighten-1">
+            <span class="white--text">
+              {{ category.postCount }}
+            </span>
           </v-list-item-avatar>
         </v-list-item>
       </v-list-group>
@@ -89,21 +91,15 @@ export default {
   },
 
   data: () => {
-    return {
-      categories: [
-        { id: 1, name: '分类1', color: 'red', postCount: 1 },
-        { id: 2, name: '分类2', color: 'pink', postCount: 0 },
-        { id: 3, name: '分类3', color: 'purple', postCount: 2 },
-        { id: 4, name: '分类4', color: 'deep-purple', postCount: 1 },
-        { id: 5, name: '分类5', color: 'indigo', postCount: 1 },
-      ],
-      archives: [],
-    }
+    return {}
   },
   computed: {
-    // categories() {
-    //   return this.$store.state.navCategories
-    // },
+    categories() {
+      return this.$store.state.navCategories
+    },
+    archives() {
+      return this.$store.state.navArchives
+    },
   },
   created() {},
   methods: {},

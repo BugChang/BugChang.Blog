@@ -26,15 +26,14 @@
         </v-carousel>
       </v-col>
     </v-row>
-    <div class="d-flex justify-space-between flex-wrap">
-      <PostPreview
-        v-for="post in posts"
-        :key="post.id"
-        :post="post"
-        class="mb-4 align-self-center"
-        style="width: 100%;"
-      />
-    </div>
+    <PostPreview
+      v-for="post in posts"
+      :key="post.id"
+      :post="post"
+      class="mb-4 align-self-center"
+      style="width: 100%;"
+    />
+
     <div class="text-center">
       <v-pagination
         v-model="page"
@@ -51,7 +50,7 @@ export default {
     PostPreview,
   },
   async asyncData({ $axios }) {
-    const data = await $axios.$get(`/posts/homelist`)
+    const data = await $axios.$get(`/posts/home`)
     return { posts: data.records, page: data.page, pageCount: data.pageCount }
   },
   data() {

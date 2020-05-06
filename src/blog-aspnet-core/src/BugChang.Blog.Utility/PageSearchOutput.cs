@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace BugChang.Blog.Application.Core
+namespace BugChang.Blog.Utility
 {
     public class PageSearchOutput<T>
     {
@@ -10,13 +10,13 @@ namespace BugChang.Blog.Application.Core
             Page = input.Page;
             Size = input.Size;
         }
-        public int Count { get; set; }
+        public int Total { get; set; }
 
-        public int Page { get; set; }
+        public int Page { get; }
 
-        public int Size { get; set; }
+        public int Size { get; }
 
-        public int PageCount => (int)Math.Ceiling((double)Count / Size);
+        public int PageCount => (int)Math.Ceiling((double)Total / Size);
 
         public IEnumerable<T> Records { get; set; }
 

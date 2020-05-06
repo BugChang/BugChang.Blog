@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Linq.Expressions;
 using BugChang.Blog.Domain.Entity;
 using BugChang.Blog.Domain.Interface;
+using BugChang.Blog.Utility;
 using Microsoft.EntityFrameworkCore;
 
 namespace BugChang.Blog.EntityFrameworkCore.Repository
@@ -30,9 +33,21 @@ namespace BugChang.Blog.EntityFrameworkCore.Repository
             return DbSet.ToList();
         }
 
-        public IQueryable GetQueryable()
+        public IQueryable<T> GetQueryable()
         {
             return DbSet;
+        }
+
+        public IQueryable<T> GetQueryable(Expression<Func<T, bool>> whereExpression)
+        {
+            return DbSet.Where(whereExpression);
+        }
+
+        public IQueryable<T> GetQueryable(Expression<Func<T, bool>> whereExpression, PageSearchInput pageSearchInput, out int total)
+        {
+            var queryable = DbSet.Where(whereExpression);
+            total = queryable.Count();
+            return queryable.OrderByDescending(e => e.Id).Skip(pageSearchInput.Skip).Take(pageSearchInput.Take);
         }
 
         public void Add(T entity)

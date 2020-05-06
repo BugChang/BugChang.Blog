@@ -55,11 +55,7 @@
         </v-img>
       </nuxt-link>
       <v-card-title class="pl-0">
-        <v-btn
-          text
-          :color="post.categoryColor"
-          @click="gotoCategory(post.categoryId)"
-        >
+        <v-btn text :color="post.categoryColor">
           <v-icon>mdi-folder</v-icon>
           {{ post.categoryName }}
         </v-btn>

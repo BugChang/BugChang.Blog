@@ -54,6 +54,9 @@ export default {
   },
   computed: {
     errorMessage() {
+      if (this.error.customMessage) {
+        return this.error.message
+      }
       const statusCode = this.error.statusCode
       let errorMessage
       switch (statusCode) {
