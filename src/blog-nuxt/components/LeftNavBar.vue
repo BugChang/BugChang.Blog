@@ -55,7 +55,7 @@
           </v-list-item-avatar>
         </v-list-item>
       </v-list-group>
-      <v-list-item to="/tags">
+      <v-list-item to="/tag">
         <v-list-item-icon>
           <v-icon>mdi-tag-multiple</v-icon>
         </v-list-item-icon>

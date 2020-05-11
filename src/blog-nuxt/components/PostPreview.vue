@@ -58,7 +58,14 @@
         </v-img>
       </nuxt-link>
       <v-card-title class="pl-0">
-        <v-btn text :color="post.categoryColor">
+        <v-btn
+          :to="`/category/${post.categoryId}`"
+          exact
+          exact-active-class="btn-category"
+          active-class="btn-category"
+          text
+          :color="post.categoryColor"
+        >
           <v-icon>mdi-folder</v-icon>
           {{ post.categoryName }}
         </v-btn>
@@ -114,3 +121,14 @@ export default {
   },
 }
 </script>
+<style scoped>
+.btn-category:hover::before,
+.btn-category::before {
+  opacity: 0;
+}
+
+/* .theme--light.v-btn--active:hover::before,
+.theme--light.v-btn--active::before {
+  opacity: 0;
+} */
+</style>
