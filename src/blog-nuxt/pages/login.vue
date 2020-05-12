@@ -28,23 +28,34 @@
             </div>
           </v-card-title>
           <v-card-text>
-            <v-form ref="form">
+            <v-form ref="form" v-model="valid">
               <v-text-field
-                v-model="loginInfo.username"
-                label="用户名"
+                v-model="loginInfo.usernameOrEmail"
+                label="请输入用户名或邮箱"
+                :rules="[(v) => !!v || '字段不能为空']"
                 outlined
               ></v-text-field>
               <v-text-field
                 v-model="loginInfo.password"
-                label="密码"
+                label="请输入密码"
                 type="password"
+                :rules="[(v) => !!v || '字段不能为空']"
                 outlined
               ></v-text-field>
+              <span v-show="error" class="error--text mb-4">{{
+                errorMsg
+              }}</span>
               <v-checkbox
                 v-model="loginInfo.rememberMe"
                 label="记住我"
               ></v-checkbox>
-              <v-btn block color="primary" @click.stop="login">
+
+              <v-btn
+                block
+                color="primary"
+                :loading="loading"
+                @click.stop="login"
+              >
                 登录
               </v-btn>
             </v-form>
@@ -63,6 +74,7 @@
   </v-container>
 </template>
 <script>
+import md5 from 'js-md5'
 const Cookie = process.client ? require('js-cookie') : undefined
 export default {
   asyncData({ query }) {
@@ -75,25 +87,39 @@ export default {
   layout: 'blank',
   data: () => {
     return {
+      valid: true,
+      loading: false,
       loginInfo: {
-        username: '',
+        usernameOrEmail: '',
         password: '',
         rememberMe: false,
       },
+      error: false,
+      errorMsg: '',
     }
   },
   methods: {
-    login() {
-      if (
-        this.loginInfo.username === 'bugchang' &&
-        this.loginInfo.password === '000000..'
-      ) {
-        Cookie.set('token', 'test_token')
-        this.$store.commit('setToken', 'test_token')
-        this.$router.push(this.returnUrl)
-      } else {
-        alert('用户名或密码错误')
+    async login() {
+      this.loading = true
+      if (this.validate()) {
+        this.loginInfo.password = md5(this.loginInfo.password)
+        try {
+          const token = await this.$axios.$post(`/token`, this.loginInfo)
+          Cookie.set('token', token)
+          this.$store.commit('setToken', token)
+          this.$router.push(this.returnUrl)
+        } catch (err) {
+          this.showError(err.response.data.error)
+        }
       }
+      this.loading = false
+    },
+    showError(message) {
+      this.errorMsg = message
+      this.error = true
+    },
+    validate() {
+      return this.$refs.form.validate()
     },
   },
   head() {

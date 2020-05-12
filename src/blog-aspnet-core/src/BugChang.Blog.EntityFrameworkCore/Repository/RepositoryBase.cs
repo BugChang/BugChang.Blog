@@ -92,6 +92,15 @@ namespace BugChang.Blog.EntityFrameworkCore.Repository
                 BlogContext.Categories.Add(category);
             }
 
+            var user = new User
+            {
+                Email = "81069681@qq.com",
+                UserName = "BugChang",
+                DisplayName = "BugChang",
+                Password = "cfc094019a8ae07d9e8d4ea7c2c78733",
+            };
+
+            BlogContext.Users.Add(user);
             BlogContext.SaveChanges();
         }
     }

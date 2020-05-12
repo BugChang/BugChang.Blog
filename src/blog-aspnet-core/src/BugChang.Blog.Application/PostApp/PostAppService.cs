@@ -14,7 +14,7 @@ namespace BugChang.Blog.Application.PostApp
     {
         private readonly IMapper _mapper;
         private readonly IPostRepository _postRepository;
-        private IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
         public PostAppService(IMapper mapper, IPostRepository postRepository, IUnitOfWork unitOfWork)
         {
@@ -44,6 +44,12 @@ namespace BugChang.Blog.Application.PostApp
             pageSearchOutput.Records = _mapper.ProjectTo<PostPreviewDto>(queryable);
             pageSearchOutput.Total = count;
             return pageSearchOutput;
+        }
+
+        public IEnumerable<PostPreviewDto> GetStickyPosts()
+        {
+            var queryable= _postRepository.GetQueryable(p => p.IsPublish && p.IsSticky);
+           return _mapper.ProjectTo<PostPreviewDto>(queryable);
         }
 
 

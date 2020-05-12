@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-breadcrumbs class="pl-0" :items="items"></v-breadcrumbs>
+    <v-breadcrumbs class="pl-0" :items="breadcrumbs"></v-breadcrumbs>
     <PostPreview
       v-for="post in posts"
       :key="post.id"
@@ -18,9 +18,12 @@
   </v-container>
 </template>
 <script>
+import PostPreview from '@/components/PostPreview'
 export default {
-  asyncData({ params }) {
-    const items = [
+  components: { PostPreview },
+  async asyncData({ params, $axios }) {
+    const tagName = params.name
+    const breadcrumbs = [
       {
         text: '首页',
         disabled: false,
@@ -34,24 +37,36 @@ export default {
         exact: true,
       },
       {
-        text: params.name,
+        text: tagName,
         disabled: true,
         to: '',
         exact: true,
       },
     ]
-    const tags = [
-      'Work',
-      '写作业',
-      'Vacation',
-      'Food',
-      'Drawers',
-      'Shopping',
-      'Art',
-      'Tech',
-      'Creative Writing',
-    ]
-    return { items, tags }
+    const data = await $axios.$get(`/tags/${encodeURI(tagName)}/posts`)
+    return {
+      tagName,
+      breadcrumbs,
+      posts: data.records,
+      page: data.page,
+      pageCount: data.pageCount,
+    }
+  },
+  methods: {
+    jump() {},
+  },
+  head() {
+    return {
+      title: `标签 | ${this.tagName}`,
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content:
+            "BugChang's Blog,个人博客,前后端分离博客,nuxt博客,.net core博客,BugChang的博客,BugChang,博客",
+        },
+      ],
+    }
   },
 }
 </script>

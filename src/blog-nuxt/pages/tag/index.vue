@@ -16,7 +16,7 @@
 </template>
 <script>
 export default {
-  asyncData() {
+  async asyncData({ $axios }) {
     const items = [
       {
         text: '首页',
@@ -29,18 +29,21 @@ export default {
         href: '',
       },
     ]
-    const tags = [
-      'Work',
-      '写作业',
-      'Vacation',
-      'Food',
-      'Drawers',
-      'Shopping',
-      'Art',
-      'Tech',
-      'Creative Writing',
-    ]
+    const tags = await $axios.$get('/tags')
     return { items, tags }
+  },
+  head() {
+    return {
+      title: '标签',
+      meta: [
+        {
+          hid: 'description',
+          name: 'description',
+          content:
+            "BugChang's Blog,个人博客,前后端分离博客,nuxt博客,.net core博客,BugChang的博客,BugChang,博客",
+        },
+      ],
+    }
   },
 }
 </script>

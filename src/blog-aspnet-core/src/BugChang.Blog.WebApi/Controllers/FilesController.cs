@@ -2,6 +2,7 @@
 using System.IO;
 using BugChang.Blog.Utility;
 using BugChang.Blog.WebApi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -22,6 +23,7 @@ namespace BugChang.Blog.WebApi.Controllers
             _configuration = configuration;
         }
 
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Post(IFormFile formFile)
         {

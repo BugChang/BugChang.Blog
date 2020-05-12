@@ -9,16 +9,27 @@
     <v-row style="margin-bottom: 70px;">
       <v-col cols="12">
         <v-carousel cycle hide-delimiter-background show-arrows-on-hover>
-          <v-carousel-item v-for="(slide, i) in slides" :key="i">
-            <v-img :src="'https://api.ixiaowai.cn/api/api.php'" height="100%">
+          <v-carousel-item
+            v-for="stickyPost in stickyPosts"
+            :key="stickyPost.id"
+            :to="`/post/${stickyPost.id}`"
+          >
+            <v-img
+              :src="
+                stickyPost.coverImgUrl
+                  ? stickyPost.coverImgUrl
+                  : 'https://api.ixiaowai.cn/api/api.php'
+              "
+              height="100%"
+            >
               <v-row class="fill-height" align="end" justify="center">
                 <v-card
                   class="display-1 white--text py-2 text-center"
-                  style="opacity: 0.5;"
+                  style="opacity: 0.6;"
                   width="100%"
                   height="120px"
                 >
-                  {{ slide }}
+                  {{ stickyPost.title }}
                 </v-card>
               </v-row>
             </v-img>
@@ -51,7 +62,13 @@ export default {
   },
   async asyncData({ $axios }) {
     const data = await $axios.$get(`/posts/home`)
-    return { posts: data.records, page: data.page, pageCount: data.pageCount }
+    const stickyPosts = await $axios.$get(`/posts/sticky`)
+    return {
+      posts: data.records,
+      page: data.page,
+      pageCount: data.pageCount,
+      stickyPosts,
+    }
   },
   data() {
     return {

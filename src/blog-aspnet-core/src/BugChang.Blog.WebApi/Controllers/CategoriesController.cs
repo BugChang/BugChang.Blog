@@ -4,6 +4,7 @@ using BugChang.Blog.Application.CategoryApp.Dto;
 using BugChang.Blog.Domain.Entity;
 using BugChang.Blog.Utility;
 using BugChang.Blog.WebApi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -42,7 +43,7 @@ namespace BugChang.Blog.WebApi.Controllers
             return Ok(category);
         }
 
-        // POST api/<controller>
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public ActionResult Post([FromBody]CategoryDto categoryDto)
         {
@@ -50,7 +51,7 @@ namespace BugChang.Blog.WebApi.Controllers
             return CreatedAtAction("Get", new { id = categoryDto.Id }, categoryDto);
         }
 
-        // PUT api/<controller>/5
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public ActionResult Put(int id, [FromBody]CategoryDto categoryDto)
         {
@@ -58,7 +59,7 @@ namespace BugChang.Blog.WebApi.Controllers
             return Ok(categoryDto);
         }
 
-        // DELETE api/<controller>/5
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public ActionResult Delete(int id)
         {
@@ -83,7 +84,7 @@ namespace BugChang.Blog.WebApi.Controllers
             var categories = _categoryAppService.GetNavList();
             return Ok(categories);
         }
-
+        [Authorize(Roles = "Admin")]
         [HttpGet("{id}/Posts")]
         public IActionResult Posts(int id,PageSearchInput pageSearchInput)
         {

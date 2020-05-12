@@ -5,6 +5,7 @@
       <v-spacer></v-spacer>
       <v-toolbar-items>
         <v-btn text to="/">返回前台</v-btn>
+        <v-btn text @click="logout">注销</v-btn>
       </v-toolbar-items>
     </v-app-bar>
     <v-navigation-drawer
@@ -61,6 +62,7 @@
 </template>
 
 <script>
+const Cookie = process.client ? require('js-cookie') : undefined
 export default {
   middleware: 'authentication',
   data: () => ({
@@ -105,5 +107,12 @@ export default {
       },
     ],
   }),
+  methods: {
+    logout() {
+      Cookie.remove('token')
+      this.$store.commit('setToken', null)
+      this.$router.push('/')
+    },
+  },
 }
 </script>

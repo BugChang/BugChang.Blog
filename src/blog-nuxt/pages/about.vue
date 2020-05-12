@@ -2,7 +2,6 @@
   <v-container>
     <v-card>
       <v-img src="https://api.ixiaowai.cn/api/api.php" max-height="320"></v-img>
-
       <v-divider></v-divider>
       <v-card-text class="text--primary body-1">
         <h2>一点感慨</h2>

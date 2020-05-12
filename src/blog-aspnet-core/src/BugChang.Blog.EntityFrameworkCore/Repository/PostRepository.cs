@@ -32,7 +32,7 @@ namespace BugChang.Blog.EntityFrameworkCore.Repository
 
         public IQueryable<Post> GetHomePosts(PageSearchInput pageSearchInput, out int count)
         {
-            var query = DbSet.Where(p => p.IsPublish);
+            var query = DbSet.Where(p => p.IsPublish && !p.IsSticky);
             count = query.Count();
             return query.OrderByDescending(p => p.Id).Skip(pageSearchInput.Skip).Take(pageSearchInput.Take);
         }

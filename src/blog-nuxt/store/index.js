@@ -3,6 +3,11 @@ export const state = () => ({
   navCategories: [],
   navArchives: [],
   token: null,
+  user: {
+    username: '',
+    role: '',
+    displayName: '',
+  },
 })
 
 export const mutations = {
@@ -14,6 +19,9 @@ export const mutations = {
   },
   setToken(state, token) {
     state.token = token
+  },
+  setUserInfo(state, user) {
+    state.token = user
   },
 }
 

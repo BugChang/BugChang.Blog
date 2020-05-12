@@ -15,6 +15,8 @@ namespace BugChang.Blog.Application.PostApp
 
         PageSearchOutput<PostPreviewDto> GetHomePosts(PageSearchInput pageSearchInput);
 
+        IEnumerable<PostPreviewDto> GetStickyPosts();
+
         PostDetailDto GetPost(int postId);
 
         PostDetailDto GetFullContent(int postId);

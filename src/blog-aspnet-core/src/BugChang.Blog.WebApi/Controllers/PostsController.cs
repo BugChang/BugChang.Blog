@@ -2,6 +2,7 @@
 using BugChang.Blog.Application.PostApp.Dto;
 using BugChang.Blog.Utility;
 using BugChang.Blog.WebApi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -31,6 +32,12 @@ namespace BugChang.Blog.WebApi.Controllers
             return Ok(_postAppService.GetHomePosts(pageSearchInput));
         }
 
+        [HttpGet("Sticky")]
+        public IActionResult StickyList()
+        {
+            return Ok(_postAppService.GetStickyPosts());
+        }
+
         // GET api/<controller>/5
         [HttpGet("{id}")]
         public IActionResult Get(int id)
@@ -43,7 +50,7 @@ namespace BugChang.Blog.WebApi.Controllers
             return Ok(post);
         }
 
-        // POST api/<controller>
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public IActionResult Post([FromBody]PostDto postDto)
         {
@@ -51,7 +58,7 @@ namespace BugChang.Blog.WebApi.Controllers
             return CreatedAtAction("Get", new { id = postDto.Id }, postDto);
         }
 
-        // PUT api/<controller>/5
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public IActionResult Put(int id, [FromBody]PostDto postDto)
         {
@@ -64,7 +71,7 @@ namespace BugChang.Blog.WebApi.Controllers
             return Ok(post);
         }
 
-        // DELETE api/<controller>/5
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
