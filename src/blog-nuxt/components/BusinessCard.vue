@@ -40,7 +40,7 @@
             </v-btn>
           </template>
           <span>扫一扫添加微信好友</span>
-          <v-img src="/image/wechat.png" max-width="140px" />
+          <v-img src="/image/wechat.jpg" max-width="140px" />
         </v-tooltip>
 
         <v-tooltip bottom>

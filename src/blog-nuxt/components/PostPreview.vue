@@ -90,17 +90,16 @@
           Read More({{ post.viewCount }})
         </v-btn>
         <v-spacer />
-        <v-btn icon color="primary">
-          <v-icon>mdi-share-variant</v-icon>
-        </v-btn>
+        <Share :title="post.title" :post-id="post.id"></Share>
       </v-card-actions>
     </v-card>
   </v-hover>
 </template>
 <script>
 import Loading from '@/components/Loading'
+import Share from '@/components/Share'
 export default {
-  components: { Loading },
+  components: { Loading, Share },
   props: {
     post: {
       type: Object,
