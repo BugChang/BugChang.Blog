@@ -56,5 +56,10 @@
 <script>
 export default {
   layout: 'admin',
+  head() {
+    return {
+      title: `仪表盘`,
+    }
+  },
 }
 </script>

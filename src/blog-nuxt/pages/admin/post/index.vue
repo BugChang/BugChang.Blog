@@ -98,5 +98,10 @@ export default {
       this.coverImgDialog = true
     },
   },
+  head() {
+    return {
+      title: `文章管理`,
+    }
+  },
 }
 </script>

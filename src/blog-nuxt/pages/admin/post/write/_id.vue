@@ -212,7 +212,9 @@ export default {
   },
   methods: {
     calcEditorHeight() {
-      this.editorHeight = this.$refs.mavonEditorDiv.clientHeight - 20
+      if (this.$refs.mavonEditorDiv.clientHeight) {
+        this.editorHeight = this.$refs.mavonEditorDiv.clientHeight - 20
+      }
     },
     async getCategories() {
       try {
@@ -268,8 +270,12 @@ export default {
     async uploadFile(file) {
       const param = new FormData()
       param.append('formFile', file)
+
       const { imgUrl } = await this.$axios.$post('/files', param, {
-        headers: { 'Content-Type': 'multipart/form-data' },
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${this.$store.state.token}`,
+        },
       })
       return imgUrl
     },
@@ -290,6 +296,11 @@ export default {
       const url = await this.uploadFile(file)
       this.$refs.mavonEditor.$img2Url(filename, url)
     },
+  },
+  head() {
+    return {
+      title: this.postId > 0 ? '修改文章' : '写文章',
+    }
   },
 }
 </script>

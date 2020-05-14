@@ -21,7 +21,7 @@ export const mutations = {
     state.token = token
   },
   setUserInfo(state, user) {
-    state.token = user
+    state.user = user
   },
 }
 

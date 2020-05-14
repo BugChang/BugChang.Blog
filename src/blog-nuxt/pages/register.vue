@@ -41,15 +41,11 @@
                 type="password"
                 outlined
               ></v-text-field>
-              <v-checkbox>
+              <v-checkbox v-model="protocol">
                 <template v-slot:label>
                   我已阅读并同意
-                  <a href="/agreement" target="_blank" @click.stop
-                    >《注册协议》</a
-                  >和
-                  <a href="/privacypolicy" target="_blank" @click.stop
-                    >《隐私政策》</a
-                  >
+                  <a @click.stop="agreement">《注册协议》</a>和
+                  <a @click.stop="privacy">《隐私政策》</a>
                 </template>
               </v-checkbox>
               <v-btn block color="primary">
@@ -73,7 +69,22 @@
 <script>
 export default {
   layout: 'blank',
-  methods: {},
+  data: () => {
+    return {
+      protocol: false,
+    }
+  },
+  methods: {
+    // 注册协议
+    agreement(e) {
+      e.preventDefault()
+      alert('注册协议拟定中')
+    },
+    privacy(e) {
+      e.preventDefault()
+      alert('隐私政策拟定中')
+    },
+  },
   head() {
     return {
       title: `登录`,

@@ -43,7 +43,7 @@
           </p>
           <p>
             后台主要是用Asp.Net Core 3.1 WebApi + EntityFrameWorkCore
-            结合Sqlite实现
+            结合MySQL实现
           </p>
 
           <p>

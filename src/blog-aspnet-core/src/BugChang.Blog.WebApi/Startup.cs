@@ -1,3 +1,4 @@
+using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using AutoMapper;
 using BugChang.Blog.Application.AccountApp;
@@ -44,6 +45,8 @@ namespace BugChang.Blog.WebApi
 
             services.AddAutoMapper(typeof(EntityToDtoProfile), typeof(DtoToEntityProfile));
 
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+
             services.AddAuthentication(x =>
                 {
                     x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
@@ -79,7 +82,7 @@ namespace BugChang.Blog.WebApi
 
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
-            services.AddDbContext<BlogContext>(options => options.UseLoggerFactory(MyLoggerFactory).UseSqlite(connectionString));
+            services.AddDbContext<BlogContext>(options => options.UseLoggerFactory(MyLoggerFactory).UseMySql(connectionString));
 
             services.AddScoped<IUnitOfWork, EfUnitOfWork>();
 

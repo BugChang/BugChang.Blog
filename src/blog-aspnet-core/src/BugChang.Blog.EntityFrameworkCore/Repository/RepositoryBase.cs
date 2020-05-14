@@ -19,7 +19,7 @@ namespace BugChang.Blog.EntityFrameworkCore.Repository
         {
             BlogContext = blogContext;
             DbSet = blogContext.Set<T>();
-            InitDataBase();
+           
 
         }
 
@@ -69,39 +69,7 @@ namespace BugChang.Blog.EntityFrameworkCore.Repository
             BlogContext.SaveChanges();
         }
 
-        public void InitDataBase()
-        {
-            if (BlogContext.Database.EnsureCreated())
-            {
-                if (!BlogContext.Categories.Any())
-                {
-                    SeedData();
-                }
-            }
-        }
-
-        public void SeedData()
-        {
-            for (int i = 0; i < 5; i++)
-            {
-                var category = new Category
-                {
-                    Name = $"分类{i + 1}",
-                    Color = Category.Colors[i]
-                };
-                BlogContext.Categories.Add(category);
-            }
-
-            var user = new User
-            {
-                Email = "81069681@qq.com",
-                UserName = "BugChang",
-                DisplayName = "BugChang",
-                Password = "cfc094019a8ae07d9e8d4ea7c2c78733",
-            };
-
-            BlogContext.Users.Add(user);
-            BlogContext.SaveChanges();
-        }
+       
+      
     }
 }

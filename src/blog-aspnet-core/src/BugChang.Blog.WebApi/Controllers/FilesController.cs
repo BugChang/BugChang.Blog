@@ -60,13 +60,7 @@ namespace BugChang.Blog.WebApi.Controllers
         private string GetImgUrl(string filePath)
         {
             var relativePath = filePath.Replace(_environment.WebRootPath, "");
-            var imgUrl = $"{Request.Scheme}://{Request.Host}{relativePath}";
-            var domain = _configuration.GetSection("Domain").Value;
-            if (!string.IsNullOrWhiteSpace(domain))
-            {
-                imgUrl = $"{domain}{relativePath}";
-            }
-
+            var imgUrl = relativePath;
             return imgUrl;
         }
     }

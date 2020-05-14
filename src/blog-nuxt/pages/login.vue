@@ -105,7 +105,7 @@ export default {
         this.loginInfo.password = md5(this.loginInfo.password)
         try {
           const token = await this.$axios.$post(`/token`, this.loginInfo)
-          Cookie.set('token', token)
+          Cookie.set('token', token, { expires: 365 })
           this.$store.commit('setToken', token)
           this.$router.push(this.returnUrl)
         } catch (err) {

@@ -30,7 +30,10 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: [{ src: '@/plugins/vue-mavon-editor', ssr: false }],
+  plugins: [
+    { src: '@/plugins/vue-mavon-editor', ssr: false },
+    { src: '@/plugins/axios' },
+  ],
   /*
    ** Nuxt.js dev-modules
    */

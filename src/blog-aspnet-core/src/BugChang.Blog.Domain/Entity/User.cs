@@ -14,7 +14,7 @@ namespace BugChang.Blog.Domain.Entity
 
         public string Avatar { get; set; }
 
-        public Role Role { get; set; }
+        public Role Role { get; set; } = Role.Normal;
 
         public bool ValidatePassword(string password)
         {

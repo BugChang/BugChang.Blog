@@ -1,7 +1,5 @@
-﻿using System.Collections.Generic;
-using BugChang.Blog.Application.CategoryApp;
+﻿using BugChang.Blog.Application.CategoryApp;
 using BugChang.Blog.Application.CategoryApp.Dto;
-using BugChang.Blog.Domain.Entity;
 using BugChang.Blog.Utility;
 using BugChang.Blog.WebApi.Models;
 using Microsoft.AspNetCore.Authorization;
@@ -84,7 +82,7 @@ namespace BugChang.Blog.WebApi.Controllers
             var categories = _categoryAppService.GetNavList();
             return Ok(categories);
         }
-        [Authorize(Roles = "Admin")]
+       
         [HttpGet("{id}/Posts")]
         public IActionResult Posts(int id,PageSearchInput pageSearchInput)
         {

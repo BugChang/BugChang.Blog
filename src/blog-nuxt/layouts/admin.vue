@@ -95,16 +95,6 @@ export default {
           },
         ],
       },
-      {
-        title: '标签',
-        to: '/admin/tags',
-        icon: 'mdi-tag',
-      },
-      {
-        title: '关于',
-        to: '/admin/about',
-        icon: 'mdi-information',
-      },
     ],
   }),
   methods: {

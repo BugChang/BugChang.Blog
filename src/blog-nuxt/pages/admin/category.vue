@@ -157,5 +157,10 @@ export default {
       return category
     },
   },
+  head() {
+    return {
+      title: `分类管理`,
+    }
+  },
 }
 </script>
