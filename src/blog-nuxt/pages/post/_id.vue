@@ -110,12 +110,14 @@
         >
       </v-card-text>
     </v-card>
+    <AddComment class="mt-4"></AddComment>
   </v-container>
 </template>
 <script>
 import 'github-markdown-css/github-markdown.css'
-
+import AddComment from '@/components/AddComment'
 export default {
+  components: { AddComment },
   async asyncData({ $axios, params, error }) {
     try {
       const post = await $axios.$get(`/posts/${params.id}/fullcontent`)
@@ -135,11 +137,6 @@ export default {
   }),
   mounted() {
     this.initHljs()
-    const d = document
-    const s = d.createElement('script')
-    s.src = 'https://bugchang-blog.disqus.com/embed.js'
-    s.setAttribute('data-timestamp', +new Date())
-    ;(d.head || d.body).appendChild(s)
   },
   created() {},
   methods: {
