@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using BugChang.Blog.Application.Core;
+﻿using System.Collections.Generic;
 using BugChang.Blog.Application.PostApp.Dto;
 using BugChang.Blog.Utility;
 
@@ -22,5 +19,9 @@ namespace BugChang.Blog.Application.PostApp
         PostDetailDto GetFullContent(int postId);
 
         void UpdatePost(PostDto postDto);
+
+        void AddComment(CommentDto commentDto);
+
+        PageSearchOutput<CommentDto> GetComments(int postId, PageSearchInput pageSearchInput);
     }
 }

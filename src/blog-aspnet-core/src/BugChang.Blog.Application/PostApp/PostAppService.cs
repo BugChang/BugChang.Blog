@@ -14,13 +14,15 @@ namespace BugChang.Blog.Application.PostApp
     {
         private readonly IMapper _mapper;
         private readonly IPostRepository _postRepository;
+        private readonly IRepository<Comment> _commentRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public PostAppService(IMapper mapper, IPostRepository postRepository, IUnitOfWork unitOfWork)
+        public PostAppService(IMapper mapper, IPostRepository postRepository, IUnitOfWork unitOfWork, IRepository<Comment> commentRepository)
         {
             _mapper = mapper;
             _postRepository = postRepository;
             _unitOfWork = unitOfWork;
+            _commentRepository = commentRepository;
         }
 
         public void InsertPost(PostDto postDto)
@@ -48,8 +50,8 @@ namespace BugChang.Blog.Application.PostApp
 
         public IEnumerable<PostPreviewDto> GetStickyPosts()
         {
-            var queryable= _postRepository.GetQueryable(p => p.IsPublish && p.IsSticky);
-           return _mapper.ProjectTo<PostPreviewDto>(queryable);
+            var queryable = _postRepository.GetQueryable(p => p.IsPublish && p.IsSticky);
+            return _mapper.ProjectTo<PostPreviewDto>(queryable);
         }
 
 
@@ -79,6 +81,23 @@ namespace BugChang.Blog.Application.PostApp
         {
             var post = _mapper.Map<Post>(postDto);
             _postRepository.Update(post);
+        }
+
+        public void AddComment(CommentDto commentDto)
+        {
+            var comment = _mapper.Map<Comment>(commentDto);
+            _commentRepository.Add(comment);
+            commentDto.Id = comment.Id;
+
+        }
+
+        public PageSearchOutput<CommentDto> GetComments(int postId, PageSearchInput pageSearchInput)
+        {
+            var pageSearchOutput = new PageSearchOutput<CommentDto>(pageSearchInput);
+            var queryable = _commentRepository.GetQueryable(c => c.PostId == postId, pageSearchInput, out int count);
+            pageSearchOutput.Records = _mapper.ProjectTo<CommentDto>(queryable);
+            pageSearchOutput.Total = count;
+            return pageSearchOutput;
         }
     }
 }

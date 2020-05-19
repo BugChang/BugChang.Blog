@@ -87,5 +87,19 @@ namespace BugChang.Blog.WebApi.Controllers
             }
             return Ok(post);
         }
+
+        [HttpPost("Comments")]
+        public IActionResult AddComment([FromBody]CommentDto commentDto)
+        {
+             _postAppService.AddComment(commentDto);
+             return Ok(commentDto);
+        }
+
+        [HttpGet("{postId}/Comments")]
+        public IActionResult GetComment(int postId, [FromQuery] PageSearchInput pageSearchInput)
+        {
+            var result= _postAppService.GetComments(postId, pageSearchInput);
+            return Ok(result);
+        }
     }
 }

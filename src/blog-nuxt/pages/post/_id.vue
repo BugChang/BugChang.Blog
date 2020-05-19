@@ -110,14 +110,14 @@
         >
       </v-card-text>
     </v-card>
-    <AddComment class="mt-4"></AddComment>
+    <Comment class="mt-4" :post-id="post.id"></Comment>
   </v-container>
 </template>
 <script>
 import 'github-markdown-css/github-markdown.css'
-import AddComment from '@/components/AddComment'
+import Comment from '@/components/Comment'
 export default {
-  components: { AddComment },
+  components: { Comment },
   async asyncData({ $axios, params, error }) {
     try {
       const post = await $axios.$get(`/posts/${params.id}/fullcontent`)
@@ -141,9 +141,10 @@ export default {
   created() {},
   methods: {
     initHljs() {
-      const func = setTimeout(() => {
+      const vm = this
+      setTimeout(() => {
         if (!window.hljs) {
-          func()
+          vm.initHljs()
         } else {
           document.querySelectorAll('pre code').forEach((block) => {
             window.hljs.highlightBlock(block)

@@ -15,7 +15,7 @@ namespace BugChang.Blog.Application.AutoMapper
             CreateMap<PostDto, Post>()
                 .ForMember(s => s.Tags, d => d.MapFrom(v => string.Join(",", v.Tags)));
 
-
+            CreateMap<CommentDto, Comment>();
         }
     }
 }

@@ -22,6 +22,8 @@ namespace BugChang.Blog.EntityFrameworkCore
 
         public DbSet<User> Users { get; set; }
 
+        public DbSet<Comment> Comments { get; set; }
+
         private void SeedData(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<User>().HasData(new User

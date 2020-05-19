@@ -35,6 +35,8 @@ namespace BugChang.Blog.Application.AutoMapper
 
             CreateMap<User, UserDto>();
 
+            CreateMap<Comment,CommentDto>();
+
         }
     }
 }
