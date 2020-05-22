@@ -17,7 +17,7 @@
             复制链接</v-list-item-title
           >
         </v-list-item>
-        <v-list-item to="/xinlang">
+        <v-list-item @click="weibo">
           <v-list-item-title
             ><v-icon left>mdi-sina-weibo</v-icon>新浪微博</v-list-item-title
           >
@@ -73,6 +73,7 @@ export default {
     showSuccess() {
       this.snackbar = true
     },
+    weibo() {},
   },
 }
 </script>

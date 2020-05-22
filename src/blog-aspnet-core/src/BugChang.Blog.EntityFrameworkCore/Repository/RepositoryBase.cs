@@ -13,13 +13,13 @@ namespace BugChang.Blog.EntityFrameworkCore.Repository
     {
         public DbSet<T> DbSet { get; set; }
 
-        public  BlogContext BlogContext { get; set; }
+        public BlogContext BlogContext { get; set; }
 
         public RepositoryBase(BlogContext blogContext)
         {
             BlogContext = blogContext;
             DbSet = blogContext.Set<T>();
-           
+
 
         }
 
@@ -45,9 +45,17 @@ namespace BugChang.Blog.EntityFrameworkCore.Repository
 
         public IQueryable<T> GetQueryable(Expression<Func<T, bool>> whereExpression, PageSearchInput pageSearchInput, out int total)
         {
+            return GetQueryable(whereExpression, a => a.Id, true, pageSearchInput, out total);
+        }
+
+        public IQueryable<T> GetQueryable(Expression<Func<T, bool>> whereExpression, Expression<Func<T, int>> orderExpression, bool desc, PageSearchInput pageSearchInput, out int total)
+        {
             var queryable = DbSet.Where(whereExpression);
             total = queryable.Count();
-            return queryable.OrderByDescending(e => e.Id).Skip(pageSearchInput.Skip).Take(pageSearchInput.Take);
+
+            queryable = !desc ? queryable.OrderBy(orderExpression) : queryable.OrderByDescending(orderExpression);
+
+            return queryable.Skip(pageSearchInput.Skip).Take(pageSearchInput.Take);
         }
 
         public void Add(T entity)
@@ -69,7 +77,7 @@ namespace BugChang.Blog.EntityFrameworkCore.Repository
             BlogContext.SaveChanges();
         }
 
-       
-      
+
+
     }
 }

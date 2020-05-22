@@ -19,6 +19,9 @@ namespace BugChang.Blog.Domain.Interface
 
         IQueryable<T> GetQueryable(Expression<Func<T, bool>> whereExpression,PageSearchInput pageSearchInput,out int total);
 
+        IQueryable<T> GetQueryable(Expression<Func<T, bool>> whereExpression, Expression<Func<T, int>> orderExpression,
+            bool desc, PageSearchInput pageSearchInput, out int total);
+
         void Add(T entity);
 
         void Remove(int id);

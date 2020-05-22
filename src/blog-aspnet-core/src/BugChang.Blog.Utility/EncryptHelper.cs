@@ -5,9 +5,9 @@ using System.Text;
 
 namespace BugChang.Blog.Utility
 {
-   public static class Md5Helper
+   public static class EncryptHelper
     {
-        public static string EncryptString(string str)
+        public static string Md5(string str)
         {
             MD5 md5 = MD5.Create();
             // 将字符串转换成字节数组
@@ -24,5 +24,10 @@ namespace BugChang.Blog.Utility
             // 返回加密的字符串
             return sb.ToString();
         }
+
+        //public static string Sha1(string str)
+        //{
+
+        //}
     }
 }

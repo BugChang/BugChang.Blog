@@ -13,7 +13,7 @@ namespace BugChang.Blog.Domain.Entity
 
         public string Content { get; set; }
 
-        public DateTime CreateTime { get; set; }
+        public DateTime CreateTime { get; set; } = DateTime.Now;
 
         public string NickName { get; set; }
 

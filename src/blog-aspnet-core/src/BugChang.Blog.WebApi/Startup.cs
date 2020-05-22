@@ -11,6 +11,7 @@ using BugChang.Blog.Domain.Entity;
 using BugChang.Blog.Domain.Interface;
 using BugChang.Blog.EntityFrameworkCore;
 using BugChang.Blog.EntityFrameworkCore.Repository;
+using BugChang.Blog.Utility;
 using IdentityModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -39,6 +40,10 @@ namespace BugChang.Blog.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddHttpClient();
+
+            services.AddMemoryCache();
+
             services.AddControllers();
 
             services.AddRouting(options => options.LowercaseUrls = true);
@@ -79,6 +84,7 @@ namespace BugChang.Blog.WebApi
                         ValidateLifetime = true
                     };
                 });
+
 
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
 

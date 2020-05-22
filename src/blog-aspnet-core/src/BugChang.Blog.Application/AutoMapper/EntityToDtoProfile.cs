@@ -35,7 +35,8 @@ namespace BugChang.Blog.Application.AutoMapper
 
             CreateMap<User, UserDto>();
 
-            CreateMap<Comment,CommentDto>();
+            CreateMap<Comment,CommentDto>()
+                .ForMember(s=>s.CreateTime,d=>d.MapFrom(v=>v.CreateTime.ToString("yy年MM月dd日 HH:mm")));
 
         }
     }

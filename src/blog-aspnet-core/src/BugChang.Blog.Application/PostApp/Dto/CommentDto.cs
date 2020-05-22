@@ -14,7 +14,7 @@ namespace BugChang.Blog.Application.PostApp.Dto
 
         public string Content { get; set; }
 
-        public DateTime CreateTime { get; set; }=DateTime.Now;
+        public string CreateTime { get; set; }
 
         public string NickName { get; set; }
 

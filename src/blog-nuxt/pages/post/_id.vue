@@ -93,22 +93,8 @@
       <div class="markdown-body" v-html="post.htmlContent" />
       <v-card-actions>
         <v-spacer />
-        <v-btn icon color="primary">
-          <v-icon>mdi-share-variant</v-icon>
-        </v-btn>
+        <Share :title="post.title" :post-id="post.id"></Share>
       </v-card-actions>
-    </v-card>
-    <v-card class="mt-4">
-      <v-card-title>评论列表</v-card-title>
-      <v-card-text>
-        <div id="disqus_thread"></div>
-        <noscript
-          >Please enable JavaScript to view the
-          <a href="https://disqus.com/?ref_noscript"
-            >comments powered by Disqus.</a
-          ></noscript
-        >
-      </v-card-text>
     </v-card>
     <Comment class="mt-4" :post-id="post.id"></Comment>
   </v-container>
@@ -116,8 +102,9 @@
 <script>
 import 'github-markdown-css/github-markdown.css'
 import Comment from '@/components/Comment'
+import Share from '@/components/Share'
 export default {
-  components: { Comment },
+  components: { Comment, Share },
   async asyncData({ $axios, params, error }) {
     try {
       const post = await $axios.$get(`/posts/${params.id}/fullcontent`)
@@ -160,9 +147,6 @@ export default {
         {
           src:
             'https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js',
-        },
-        {
-          src: 'https://bugchang-blog.disqus.com/embed.js',
         },
       ],
       link: [

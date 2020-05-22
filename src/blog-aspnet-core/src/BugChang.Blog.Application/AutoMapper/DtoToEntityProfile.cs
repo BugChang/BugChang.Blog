@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using AutoMapper;
 using BugChang.Blog.Application.CategoryApp.Dto;
 using BugChang.Blog.Application.PostApp.Dto;
@@ -15,7 +16,8 @@ namespace BugChang.Blog.Application.AutoMapper
             CreateMap<PostDto, Post>()
                 .ForMember(s => s.Tags, d => d.MapFrom(v => string.Join(",", v.Tags)));
 
-            CreateMap<CommentDto, Comment>();
+            CreateMap<CommentDto, Comment>()
+                .ForMember(s=>s.CreateTime,d=>d.MapFrom(v=>DateTime.Now));
         }
     }
 }

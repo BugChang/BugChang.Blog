@@ -94,7 +94,7 @@ namespace BugChang.Blog.Application.PostApp
         public PageSearchOutput<CommentDto> GetComments(int postId, PageSearchInput pageSearchInput)
         {
             var pageSearchOutput = new PageSearchOutput<CommentDto>(pageSearchInput);
-            var queryable = _commentRepository.GetQueryable(c => c.PostId == postId, pageSearchInput, out int count);
+            var queryable = _commentRepository.GetQueryable(c => c.PostId == postId,c=>c.PostId,false, pageSearchInput, out int count);
             pageSearchOutput.Records = _mapper.ProjectTo<CommentDto>(queryable);
             pageSearchOutput.Total = count;
             return pageSearchOutput;
