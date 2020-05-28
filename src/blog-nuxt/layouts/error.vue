@@ -67,7 +67,7 @@ export default {
           errorMessage = this.pageNotFound
           break
         default:
-          errorMessage = this.otherError
+          errorMessage = this.error
           break
       }
       return errorMessage

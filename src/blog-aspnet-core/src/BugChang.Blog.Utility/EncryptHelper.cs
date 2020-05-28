@@ -5,29 +5,46 @@ using System.Text;
 
 namespace BugChang.Blog.Utility
 {
-   public static class EncryptHelper
+    public static class EncryptHelper
     {
-        public static string Md5(string str)
+
+
+        /// <summary>
+        /// 基于MD5的自定义加密字符串方法：输入一个字符串，返回一个由40个字符组成的十六进制的哈希散列（字符串）。
+        /// </summary>
+        /// <param name="str">要加密的字符串</param>
+        /// <returns>加密后的十六进制的哈希散列（字符串）</returns>
+        public static string Md5(this string str)
         {
-            MD5 md5 = MD5.Create();
-            // 将字符串转换成字节数组
-            byte[] byteOld = Encoding.UTF8.GetBytes(str);
-            // 调用加密方法
-            byte[] byteNew = md5.ComputeHash(byteOld);
-            // 将加密结果转换为字符串
-            StringBuilder sb = new StringBuilder();
-            foreach (byte b in byteNew)
+            var buffer = Encoding.UTF8.GetBytes(str);
+            var data = MD5.Create().ComputeHash(buffer);
+
+            var sb = new StringBuilder();
+            foreach (var t in data)
             {
-                // 将字节转换成16进制表示的字符串，
-                sb.Append(b.ToString("x2"));
+                sb.Append(t.ToString("x2"));
             }
-            // 返回加密的字符串
+
             return sb.ToString();
         }
 
-        //public static string Sha1(string str)
-        //{
+        /// <summary>
+        /// 基于Sha1的自定义加密字符串方法：输入一个字符串，返回一个由40个字符组成的十六进制的哈希散列（字符串）。
+        /// </summary>
+        /// <param name="str">要加密的字符串</param>
+        /// <returns>加密后的十六进制的哈希散列（字符串）</returns>
+        public static string Sha1(this string str)
+        {
+            var buffer = Encoding.UTF8.GetBytes(str);
+            var data = SHA1.Create().ComputeHash(buffer);
 
-        //}
+            var sb = new StringBuilder();
+            foreach (var t in data)
+            {
+                sb.Append(t.ToString("x2"));
+            }
+
+            return sb.ToString();
+        }
     }
 }

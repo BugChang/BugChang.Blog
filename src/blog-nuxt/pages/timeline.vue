@@ -9,6 +9,20 @@
           <v-timeline-item color="pink" small>
             <v-row class="pt-1">
               <v-col cols="3">
+                <strong>2020.5.25</strong>
+              </v-col>
+              <v-col>
+                <strong>新功能上线</strong>
+                <ul>
+                  <li>评论功能上线</li>
+                  <li>分享功能上线</li>
+                </ul>
+              </v-col>
+            </v-row>
+          </v-timeline-item>
+          <v-timeline-item color="pink" small>
+            <v-row class="pt-1">
+              <v-col cols="3">
                 <strong>2020.5.13</strong>
               </v-col>
               <v-col>

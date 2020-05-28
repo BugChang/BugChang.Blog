@@ -18,6 +18,11 @@ export default {
       },
     ],
     link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
+    script: [
+      {
+        src: 'https://hm.baidu.com/hm.js?a0e4f7e70ba8a1a12f49c85714ec0422',
+      },
+    ],
   },
   /*
    ** Customize the progress-bar color
@@ -33,7 +38,12 @@ export default {
   plugins: [
     { src: '@/plugins/vue-mavon-editor', ssr: false },
     { src: '@/plugins/axios' },
+    { src: '@/plugins/wx-share', ssr: false },
   ],
+  server: {
+    port: 3000, // default: 3000
+    host: '0.0.0.0', // default: localhost,
+  },
   /*
    ** Nuxt.js dev-modules
    */

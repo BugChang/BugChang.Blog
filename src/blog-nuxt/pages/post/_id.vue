@@ -123,6 +123,15 @@ export default {
     },
   }),
   mounted() {
+    this.wxShare(
+      {
+        title: this.post.title,
+        desc: "BugChang's Blog",
+        link: location.href,
+        imgUrl: location.protocol + '//' + location.host + '/favicon.ico',
+      },
+      location.href
+    )
     this.initHljs()
   },
   created() {},

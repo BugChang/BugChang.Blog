@@ -63,11 +63,5 @@ namespace BugChang.Blog.WebApi.Controllers
             var tokenString = tokenHandler.WriteToken(token);
             return Ok(tokenString);
         }
-
-
-        [HttpDelete]
-        public void Delete(int id)
-        {
-        }
     }
 }
