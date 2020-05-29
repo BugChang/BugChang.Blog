@@ -6,18 +6,21 @@ using AutoMapper;
 using BugChang.Blog.Application.AccountApp.Dto;
 using BugChang.Blog.Domain.Entity;
 using BugChang.Blog.Domain.Interface;
+using BugChang.Blog.Domain.Service;
 
 namespace BugChang.Blog.Application.AccountApp
 {
     public class AccountAppService : IAccountAppService
     {
         private readonly IRepository<User> _userRepository;
+        private readonly UserService _userService;
         private readonly IMapper _mapper;
 
-        public AccountAppService(IRepository<User> userRepository, IMapper mapper)
+        public AccountAppService(IRepository<User> userRepository, IMapper mapper, UserService userService)
         {
             _userRepository = userRepository;
             _mapper = mapper;
+            _userService = userService;
         }
 
         public UserDto CheckLogin(string usernameOrEmail, string password)
@@ -31,6 +34,12 @@ namespace BugChang.Blog.Application.AccountApp
             }
 
             return null;
+        }
+
+        public void Register(RegisterInput registerInput)
+        {
+            var user = _mapper.Map<User>(registerInput);
+            _userService.AddNewUser(user);
         }
     }
 }

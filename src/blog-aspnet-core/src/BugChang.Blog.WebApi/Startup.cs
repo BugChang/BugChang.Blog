@@ -9,6 +9,7 @@ using BugChang.Blog.Application.PostApp;
 using BugChang.Blog.Application.TagApp;
 using BugChang.Blog.Domain.Entity;
 using BugChang.Blog.Domain.Interface;
+using BugChang.Blog.Domain.Service;
 using BugChang.Blog.EntityFrameworkCore;
 using BugChang.Blog.EntityFrameworkCore.Repository;
 using BugChang.Blog.Utility;
@@ -98,6 +99,8 @@ namespace BugChang.Blog.WebApi
             services.AddScoped<ITagAppService, TagAppService>();
             services.AddScoped<IAccountAppService, AccountAppService>();
 
+            services.AddScoped<UserService>();
+
             services.AddScoped<ICategoryRepository, CategoryRepository>();
             services.AddScoped<IPostRepository, PostRepository>();
             services.AddScoped<IRepository<User>, RepositoryBase<User>>();
@@ -107,10 +110,7 @@ namespace BugChang.Blog.WebApi
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
+            app.UseExceptionHandler(env.IsDevelopment() ? "/error-local-development" : "/error");
 
             app.UseStaticFiles();
 

@@ -9,8 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BugChang.Blog.WebApi.Controllers
 {
-    [Route("api/[controller]")]
-    public class PostsController : Controller
+
+    public class PostsController : BlogControllerBase
     {
         private readonly IPostAppService _postAppService;
 
@@ -91,14 +91,21 @@ namespace BugChang.Blog.WebApi.Controllers
         [HttpPost("Comments")]
         public IActionResult AddComment([FromBody]CommentDto commentDto)
         {
-             _postAppService.AddComment(commentDto);
-             return Ok(commentDto);
+            var accountInfo = GetAccountInfo();
+            if (accountInfo != null)
+            {
+                commentDto.UserId = accountInfo.UserId;
+                commentDto.Email = accountInfo.Email;
+                commentDto.NickName = accountInfo.NickName;
+            }
+            _postAppService.AddComment(commentDto);
+            return Ok(commentDto);
         }
 
         [HttpGet("{postId}/Comments")]
         public IActionResult GetComment(int postId, [FromQuery] PageSearchInput pageSearchInput)
         {
-            var result= _postAppService.GetComments(postId, pageSearchInput);
+            var result = _postAppService.GetComments(postId, pageSearchInput);
             return Ok(result);
         }
     }

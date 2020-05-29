@@ -3,11 +3,7 @@ export const state = () => ({
   navCategories: [],
   navArchives: [],
   token: null,
-  user: {
-    username: '',
-    role: '',
-    displayName: '',
-  },
+  currentUser: {},
 })
 
 export const mutations = {
@@ -20,8 +16,8 @@ export const mutations = {
   setToken(state, token) {
     state.token = token
   },
-  setUserInfo(state, user) {
-    state.user = user
+  setUserInfo(state, currentUser) {
+    state.currentUser = currentUser
   },
 }
 
@@ -34,14 +30,17 @@ export const actions = {
     commit('setNavArchives', archives)
 
     let token = null
+    let currentUser = null
     if (req.headers.cookie) {
       const cookie = cookieparser.parse(req.headers.cookie)
       try {
         token = cookie.token
+        currentUser = JSON.parse(cookie.currentUser)
       } catch (err) {
         // No valid cookie found
       }
     }
     commit('setToken', token)
+    commit('setUserInfo', currentUser)
   },
 }

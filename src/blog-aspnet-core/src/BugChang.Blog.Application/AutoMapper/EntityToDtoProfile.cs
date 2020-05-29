@@ -25,7 +25,8 @@ namespace BugChang.Blog.Application.AutoMapper
 
             CreateMap<Post, PostPreviewDto>()
                 .ForMember(s => s.Tags, d => d.MapFrom(v => v.Tags.Split(",", StringSplitOptions.RemoveEmptyEntries)))
-                .ForMember(s => s.Summary, d => d.MapFrom(v => v.GetSummary(200)));
+                .ForMember(s => s.Summary, d => d.MapFrom(v => v.GetSummary(200)))
+                .ForMember(s=>s.CreateTime,d=>d.MapFrom(v=>v.CreateTime.ToString("yyyy-MM-dd HH:mm")));
 
             CreateMap<Post, PostDetailDto>()
                 .ForMember(s => s.Tags, d => d.MapFrom(v => v.Tags.Split(",", StringSplitOptions.RemoveEmptyEntries)))

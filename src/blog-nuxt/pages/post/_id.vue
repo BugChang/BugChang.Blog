@@ -92,6 +92,7 @@
       <!-- eslint-disable-next-line vue/no-v-html -->
       <div class="markdown-body" v-html="post.htmlContent" />
       <v-card-actions>
+        <!-- <v-subheader> 阅读({{ post.viewCount }}) 评论(15)</v-subheader> -->
         <v-spacer />
         <Share :title="post.title" :post-id="post.id"></Share>
       </v-card-actions>

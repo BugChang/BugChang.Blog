@@ -11,6 +11,8 @@
       <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
       <v-toolbar-title>BugChang's Blog</v-toolbar-title>
       <v-spacer></v-spacer>
+
+      <AccountInfo></AccountInfo>
     </v-app-bar>
     <v-navigation-drawer v-model="drawer" width="300" app clipped>
       <LeftNavBar></LeftNavBar>
@@ -42,12 +44,13 @@
 
 <script>
 import LeftNavBar from '@/components/LeftNavBar'
+import AccountInfo from '@/components/AccountInfo'
 export default {
-  components: { LeftNavBar },
+  components: { LeftNavBar, AccountInfo },
 
   data() {
     return {
-      drawer: true,
+      drawer: null,
       gotoTopVisible: false,
     }
   },

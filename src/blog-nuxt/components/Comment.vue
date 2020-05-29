@@ -31,6 +31,11 @@
             ></v-divider>
           </template>
         </v-list>
+        <v-pagination
+          v-model="page"
+          :length="pageCount"
+          @input="getCommnets()"
+        ></v-pagination>
       </v-card-text>
     </v-card>
     <v-card class="mt-4">
@@ -38,7 +43,7 @@
       <v-card-text class="pb-0">
         <v-form ref="form" v-model="valid">
           <v-row dense>
-            <v-col cols="12" md="6">
+            <v-col v-if="currentUser == null" cols="12" md="6">
               <v-text-field
                 v-model="comment.nickName"
                 label="昵称"
@@ -46,7 +51,7 @@
                 filled
               ></v-text-field>
             </v-col>
-            <v-col cols="12" md="6">
+            <v-col v-if="currentUser == null" cols="12" md="6">
               <v-text-field
                 v-model="comment.email"
                 label="邮箱"
@@ -96,6 +101,8 @@ export default {
   data() {
     return {
       valid: true,
+      page: 1,
+      pageCount: 1,
       comment: {
         userId: null,
         postId: this.postId,
@@ -112,19 +119,34 @@ export default {
       ],
     }
   },
-  mounted() {
+  computed: {
+    currentUser() {
+      return this.$store.state.currentUser
+    },
+  },
+  created() {
     this.getCommnets()
   },
   methods: {
     async commit() {
-      await this.$axios.$post('/posts/comments', this.comment)
-      await this.getCommnets()
-      Object.assign(this.comment, this.$options.data().comment)
-      this.$refs.form.resetValidation()
+      if (this.validate()) {
+        await this.$axios.$post('/posts/comments', this.comment)
+        await this.getCommnets()
+        Object.assign(this.comment, this.$options.data().comment)
+        this.comment.postId = this.postId
+        this.$refs.form.resetValidation()
+      }
     },
     async getCommnets() {
-      const data = await this.$axios.$get(`/posts/${this.postId}/comments`)
+      const data = await this.$axios.$get(
+        `/posts/${this.postId}/comments?page=${this.page}`
+      )
       this.comments = data.records
+      this.pageCount = data.pageCount
+      this.page = data.page
+    },
+    validate() {
+      return this.$refs.form.validate()
     },
   },
 }

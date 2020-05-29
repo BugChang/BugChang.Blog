@@ -4,10 +4,7 @@
       <v-row>
         <v-col class="text-center">
           <v-avatar size="64" class="mb-4">
-            <img
-              src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2207836269,2901435392&fm=26&gp=0.jpg"
-              alt="BugChang"
-            />
+            <img src="/image/logo160x160.png" alt="BugChang" />
           </v-avatar>
           <p>姓名：常吉 | 网名：BugChang</p>
           <p>职业：.Net高级开发工程师</p>

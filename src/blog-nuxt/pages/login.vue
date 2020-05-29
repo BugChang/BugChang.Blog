@@ -107,6 +107,7 @@ export default {
           const token = await this.$axios.$post(`/token`, this.loginInfo)
           Cookie.set('token', token, { expires: 365 })
           this.$store.commit('setToken', token)
+          await this.getCurrentUser()
           this.$router.push(this.returnUrl)
         } catch (err) {
           this.showError(err.response.data.error)
@@ -120,6 +121,11 @@ export default {
     },
     validate() {
       return this.$refs.form.validate()
+    },
+    async getCurrentUser() {
+      const currentUser = await this.$axios.$get('/accounts')
+      Cookie.set('currentUser', currentUser, { expires: 365 })
+      this.$store.commit('setUserInfo', currentUser)
     },
   },
   head() {

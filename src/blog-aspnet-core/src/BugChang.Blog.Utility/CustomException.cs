@@ -8,6 +8,7 @@ namespace BugChang.Blog.Utility
     public enum CustomExceptionCode
     {
         NotFound = 0,
+        AlreadyExist = 1,
 
     }
     public class CustomException : Exception

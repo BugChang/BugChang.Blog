@@ -52,6 +52,7 @@ namespace BugChang.Blog.WebApi.Controllers
                     new Claim(JwtClaimTypes.Id, user.Id.ToString()),
                     new Claim(JwtClaimTypes.Name, user.UserName),
                     new Claim(JwtClaimTypes.NickName, user.DisplayName),
+                    new Claim(JwtClaimTypes.Email, user.Email),
                     new Claim(JwtClaimTypes.Role, user.Role)
 
                 }),

@@ -9,8 +9,4 @@
     <ProjectReference Include="..\BugChang.Blog.Utility\BugChang.Blog.Utility.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Service\" />
-  </ItemGroup>
-
 </Project>
