@@ -8,9 +8,6 @@
           <template v-for="(item, i) in comments">
             <v-list-item :key="item.id">
               <v-list-item-avatar color="primary" class="white--text">
-                <!-- <img
-                  src="https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2207836269,2901435392&fm=26&gp=0.jpg"
-                /> -->
                 {{ item.nickName.substring(0, 1) }}
               </v-list-item-avatar>
 
@@ -32,6 +29,7 @@
           </template>
         </v-list>
         <v-pagination
+          v-if="comments.length !== 0"
           v-model="page"
           :length="pageCount"
           @input="getCommnets()"

@@ -18,7 +18,7 @@
         </v-col>
       </v-row>
       <div ref="mavonEditorDiv" class="mavonEditor">
-        <no-ssr>
+        <client-only>
           <mavon-editor
             ref="mavonEditor"
             v-model="post.content"
@@ -27,7 +27,7 @@
             :style="`height:${editorHeight}px`"
             @imgAdd="editorAddImg"
           />
-        </no-ssr>
+        </client-only>
       </div>
       <div>
         <v-row align="center" justify="start">
@@ -321,6 +321,9 @@ export default {
   position: absolute;
   right: 0;
   bottom: 0;
+}
+.markdown-body {
+  max-width: 100%;
 }
 </style>
 <style>

@@ -1,6 +1,7 @@
 ﻿using System;
 using BugChang.Blog.Utility;
 using BugChang.Blog.WebApi.Models;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -23,15 +24,7 @@ namespace BugChang.Blog.WebApi.Controllers
             var context = HttpContext.Features.Get<IExceptionHandlerFeature>();
             if (context.Error is CustomException exception)
             {
-                switch (exception.ExceptionCode)
-                {
-                    case CustomExceptionCode.NotFound:
-                        return NotFound(CustomerError.Default(exception.Message));
-                    case CustomExceptionCode.AlreadyExist:
-                        return BadRequest(CustomerError.Default(exception.Message));
-                    default:
-                        return Problem();
-                }
+                return CustomError(exception);
             }
             return Problem(
                 detail: context.Error.StackTrace,
@@ -45,17 +38,24 @@ namespace BugChang.Blog.WebApi.Controllers
 
             if (context.Error is CustomException exception)
             {
-                switch (exception.ExceptionCode)
-                {
-                    case CustomExceptionCode.NotFound:
-                        return NotFound(CustomerError.Default(exception.Message));
-                    case CustomExceptionCode.AlreadyExist:
-                        return BadRequest(CustomerError.Default(exception.Message));
-                    default:
-                        return Problem();
-                }
+               return CustomError(exception);
             }
             return Problem();
+        }
+
+        private IActionResult CustomError(CustomException exception)
+        {
+            switch (exception.ExceptionCode)
+            {
+                case CustomExceptionCode.NotFound:
+                    return NotFound(CustomerError.Default(exception.Message));
+                case CustomExceptionCode.AlreadyExist:
+                    return BadRequest(CustomerError.Default(exception.Message));
+                case CustomExceptionCode.Forbidden:
+                    return Forbid();
+                default:
+                    return Problem();
+            }
         }
     }
 }

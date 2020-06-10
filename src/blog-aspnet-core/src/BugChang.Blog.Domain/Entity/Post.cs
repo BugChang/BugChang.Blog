@@ -14,7 +14,6 @@ namespace BugChang.Blog.Domain.Entity
 
         public int CategoryId { get; set; }
 
-
         public int ViewCount { get; set; }
 
         public DateTime CreateTime { get; set; }
@@ -26,6 +25,7 @@ namespace BugChang.Blog.Domain.Entity
         public bool IsSticky { get; set; }
 
         public string Tags { get; set; }
+
 
         [ForeignKey("CategoryId")]
         public Category Category { get; set; }
@@ -57,5 +57,6 @@ namespace BugChang.Blog.Domain.Entity
 
             return false;
         }
+
     }
 }

@@ -12,7 +12,6 @@ using BugChang.Blog.Domain.Interface;
 using BugChang.Blog.Domain.Service;
 using BugChang.Blog.EntityFrameworkCore;
 using BugChang.Blog.EntityFrameworkCore.Repository;
-using BugChang.Blog.Utility;
 using IdentityModel;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
@@ -36,7 +35,10 @@ namespace BugChang.Blog.WebApi
         public IConfiguration Configuration { get; }
 
         public static readonly ILoggerFactory MyLoggerFactory
-            = LoggerFactory.Create(builder => { builder.AddConsole(); });
+            = LoggerFactory.Create(builder =>
+            {
+                builder.AddConsole();
+            });
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)

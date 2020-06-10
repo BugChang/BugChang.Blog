@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using AutoMapper;
 using BugChang.Blog.Application.PostApp.Dto;
-using BugChang.Blog.Application.TagApp.Dto;
-using BugChang.Blog.Domain.Entity;
 using BugChang.Blog.Domain.Interface;
 using BugChang.Blog.Utility;
 
@@ -34,7 +30,7 @@ namespace BugChang.Blog.Application.TagApp
 
         public IEnumerable<string> GetTags()
         {
-            var list= _postRepository.GetQueryable(p=>p.IsPublish&&!string.IsNullOrWhiteSpace(p.Tags)).Select(p=>p.Tags).ToList();
+            var list= _postRepository.GetQueryable(p=>p.IsPublish&&!string.IsNullOrWhiteSpace(p.Tags)).Select(p=>p.Tags).Distinct().ToList();
             var str= string.Join(",", list);
             return str.Split(',');
         }

@@ -9,6 +9,21 @@
           <v-timeline-item color="pink" small>
             <v-row class="pt-1">
               <v-col cols="3">
+                <strong>2020.6.1</strong>
+              </v-col>
+              <v-col>
+                <strong>功能上线、优化</strong>
+                <ul>
+                  <li>评论功能优化</li>
+                  <li>注册登录功能上线</li>
+                  <li>AppBar样式改版</li>
+                </ul>
+              </v-col>
+            </v-row>
+          </v-timeline-item>
+          <v-timeline-item color="pink" small>
+            <v-row class="pt-1">
+              <v-col cols="3">
                 <strong>2020.5.25</strong>
               </v-col>
               <v-col>

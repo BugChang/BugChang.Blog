@@ -58,6 +58,7 @@ namespace BugChang.Blog.Application.PostApp
         public PostDetailDto GetPost(int postId)
         {
             var post = _postRepository.Get(postId);
+           
             var dto = _mapper.Map<PostDetailDto>(post);
             return dto;
         }

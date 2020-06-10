@@ -33,5 +33,7 @@ namespace BugChang.Blog.Application.PostApp.Dto
         public string LastPublishTime { get; set; }
 
         public int ViewCount { get; set; }
+
+        public bool NeedVisitCode { get; set; }
     }
 }

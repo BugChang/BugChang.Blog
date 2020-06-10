@@ -19,25 +19,25 @@ namespace BugChang.Blog.Application.AutoMapper
                 .ForMember(s => s.PostCount, d => d.MapFrom(src => src.Posts.Count()));
 
             CreateMap<Category, CategoryNavDto>()
-                .ForMember(s => s.PostCount, d => d.MapFrom(src => src.Posts.Count(e=>e.IsPublish)));
+                .ForMember(s => s.PostCount, d => d.MapFrom(src => src.Posts.Count(e => e.IsPublish)));
 
             CreateMap<Category, CategoryDto>();
 
             CreateMap<Post, PostPreviewDto>()
                 .ForMember(s => s.Tags, d => d.MapFrom(v => v.Tags.Split(",", StringSplitOptions.RemoveEmptyEntries)))
                 .ForMember(s => s.Summary, d => d.MapFrom(v => v.GetSummary(200)))
-                .ForMember(s=>s.CreateTime,d=>d.MapFrom(v=>v.CreateTime.ToString("yyyy-MM-dd HH:mm")));
+                .ForMember(s => s.CreateTime, d => d.MapFrom(v => v.CreateTime.ToString("yyyy-MM-dd HH:mm")));
 
             CreateMap<Post, PostDetailDto>()
                 .ForMember(s => s.Tags, d => d.MapFrom(v => v.Tags.Split(",", StringSplitOptions.RemoveEmptyEntries)))
-                .ForMember(s=>s.HtmlContent,d=>d.MapFrom(v=>v.GetHtmlContent()));
+                .ForMember(s => s.HtmlContent, d => d.MapFrom(v => v.GetHtmlContent()));
 
             CreateMap<Archive, ArchiveDto>();
 
             CreateMap<User, UserDto>();
 
-            CreateMap<Comment,CommentDto>()
-                .ForMember(s=>s.CreateTime,d=>d.MapFrom(v=>v.CreateTime.ToString("yy年MM月dd日 HH:mm")));
+            CreateMap<Comment, CommentDto>()
+                .ForMember(s => s.CreateTime, d => d.MapFrom(v => v.CreateTime.ToString("yy年MM月dd日 HH:mm")));
 
         }
     }

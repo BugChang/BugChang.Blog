@@ -9,6 +9,7 @@ namespace BugChang.Blog.Utility
     {
         NotFound = 0,
         AlreadyExist = 1,
+        Forbidden = 2,
 
     }
     public class CustomException : Exception

@@ -27,8 +27,7 @@
           </template>
           <span>QQ</span>
         </v-tooltip>
-
-        <v-tooltip bottom>
+        <v-menu :close-on-content-click="false" offset-y>
           <template v-slot:activator="{ on }">
             <v-btn icon v-on="on">
               <v-icon>
@@ -36,9 +35,12 @@
               </v-icon>
             </v-btn>
           </template>
-          <span>扫一扫添加微信好友</span>
-          <v-img src="/image/wechat.jpg" max-width="140px" />
-        </v-tooltip>
+          <v-card>
+            <v-card-text class="pa-0">
+              <v-img src="/image/wechat.jpg" max-width="140px" />
+            </v-card-text>
+          </v-card>
+        </v-menu>
 
         <v-tooltip bottom>
           <template v-slot:activator="{ on }">
