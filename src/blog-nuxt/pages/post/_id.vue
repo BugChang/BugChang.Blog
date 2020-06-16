@@ -48,6 +48,7 @@
   <v-container style="max-width: 1050px;">
     <v-card>
       <v-img
+        max-height="360px"
         :src="
           post.coverImgUrl || 'https://api.ixiaowai.cn/api/api.php?t=' + post.id
         "

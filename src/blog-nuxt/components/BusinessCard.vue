@@ -27,16 +27,23 @@
           </template>
           <span>QQ</span>
         </v-tooltip>
+
         <v-menu :close-on-content-click="false" offset-y>
-          <template v-slot:activator="{ on }">
-            <v-btn icon v-on="on">
-              <v-icon>
-                mdi-wechat
-              </v-icon>
-            </v-btn>
+          <template v-slot:activator="{ on: menu, attrs }">
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on: tooltip }">
+                <v-btn icon v-bind="attrs" v-on="{ ...tooltip, ...menu }">
+                  <v-icon>
+                    mdi-wechat
+                  </v-icon>
+                </v-btn>
+              </template>
+              <span>微信</span>
+            </v-tooltip>
           </template>
           <v-card>
             <v-card-text class="pa-0">
+              <div class="text-center black--text pt-1">扫一扫添加微信好友</div>
               <v-img src="/image/wechat.jpg" max-width="140px" />
             </v-card-text>
           </v-card>

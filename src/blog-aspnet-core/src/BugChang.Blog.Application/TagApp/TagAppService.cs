@@ -30,9 +30,9 @@ namespace BugChang.Blog.Application.TagApp
 
         public IEnumerable<string> GetTags()
         {
-            var list= _postRepository.GetQueryable(p=>p.IsPublish&&!string.IsNullOrWhiteSpace(p.Tags)).Select(p=>p.Tags).Distinct().ToList();
+            var list= _postRepository.GetQueryable(p=>p.IsPublish&&!string.IsNullOrWhiteSpace(p.Tags)).Select(p=>p.Tags).ToList();
             var str= string.Join(",", list);
-            return str.Split(',');
+            return str.Split(',').Distinct();
         }
     }
 }
